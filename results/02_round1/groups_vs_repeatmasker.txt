@@ -1,0 +1,12 @@
+
+G1(round1): 123 chunks, 6150 copies; chunk ids 1-33,35-99,574-581,583-593,595-600
+  top names: AluJb 5287 (86%); AluSx 221 (4%); AluJo 189 (3%); AluJr 154 (3%); AluJr4 105 (2%); AluSz 51 (1%); AluSz6 38 (1%); AluSx1 16 (0%)
+  family share: AluJ 93%  AluS 6%  AluY 0%
+
+G2(round2): 117 chunks, 5850 copies; chunk ids 167-169,172-285
+  top names: AluY 3503 (60%); AluSc 535 (9%); AluSx 369 (6%); AluSc8 331 (6%); AluYk3 232 (4%); AluYm1 101 (2%); AluYa5 100 (2%); AluYb8 82 (1%)
+  family share: AluJ 0%  AluS 26%  AluY 74%
+
+residue: 360 chunks, 18000 copies; chunk ids 34,100-166,170-171,286-573,582,594
+  top names: AluSx 8506 (47%); AluSx1 1735 (10%); AluSz 1357 (8%); AluSp 1241 (7%); AluSq2 879 (5%); AluSg 840 (5%); AluSz6 767 (4%); AluSx3 533 (3%)
+  family share: AluJ 3%  AluS 95%  AluY 2%

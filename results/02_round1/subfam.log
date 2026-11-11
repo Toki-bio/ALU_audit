@@ -1,0 +1,3 @@
+SubFam 1.5.1  2026-11-11 04:43
+command: /scratch/sk4386/alu_audit/tools/SubFam/SubFam.sh -n 50 -t 8 -o round1/n50 -x alu -g round1/s1.labels.tsv round1/s1.fa 
+input: round1/s1.fa  sequences: 30000  chunks: 600  n: 50  p: 0.36  k: 6  order: kmer (C)

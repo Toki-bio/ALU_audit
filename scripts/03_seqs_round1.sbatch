@@ -25,7 +25,10 @@ grep -c '^>' copyset/alu_full.fa; head -2 copyset/alu_full.fa | cut -c1-120
 seqkit seq -u -w 0 copyset/alu_full.fa | seqkit grep -s -v -p N > copyset/alu_full.clean.fa
 seqkit stats -T copyset/alu_full.fa copyset/alu_full.clean.fa
 # seed-1 sample of 30,000 ids (deterministic: awk srand(1), sort)
-grep '^>' copyset/alu_full.clean.fa | sed 's/^>//' | awk 'BEGIN{srand(1)}{print rand()"\t"$0}' | sort -k1,1g | head -30000 | cut -f2 > round1/s1.ids
+grep '^>' copyset/alu_full.clean.fa | sed 's/^>//' | awk 'BEGIN{srand(1)}{print rand()"\t"$0}'  > round1/s1.shuf.tmp
+sort -k1,1g round1/s1.shuf.tmp > round1/s1.sorted.tmp
+head -n 30000 round1/s1.sorted.tmp | cut -f2 > round1/s1.ids
+rm -f round1/s1.shuf.tmp round1/s1.sorted.tmp
 seqkit grep -n -f round1/s1.ids copyset/alu_full.clean.fa -w 0 > round1/s1.fa
 awk -F'|' '/^>/{print substr($0,2)"\t"$2}' round1/s1.fa > round1/s1.labels.tsv
 grep -c '^>' round1/s1.fa; cut -f2 round1/s1.labels.tsv | sort | uniq -c | sort -k1,1nr | head -50 > round1/s1.label_counts.txt

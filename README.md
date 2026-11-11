@@ -236,3 +236,38 @@ For comparison AluY has one mode at 6-7 %. A copy at 13-16 % from the consensus 
 human lineage is older than the subfamily can be, so these rows are candidates for a wrong name. Possible causes to
 separate: an old AluS or AluJ copy that matches the young consensus best by chance or by parallel CpG changes; gene
 conversion; a subfamily that is in fact old (AluYh9). Nothing here has been tested yet.
+
+## 11. Round 1 of the sequential peeling (2026-11-11, measured)
+
+Scripts `scripts/03_seqs_round1.sbatch`, `scripts/04_peel_round1.sbatch`, `scripts/05_peel_groups_vs_rm.py`; results in
+`results/02_round1/`; full outputs in `monsoon:/scratch/sk4386/alu_audit/round1/`.
+
+**Copies.** 824,790 full-length dimeric Alu (one RepeatMasker row for its ID, at least 0.9 of the consensus covered,
+250-350 bp, monomers excluded; 247.7 Mbp, no N): `monsoon:/scratch/sk4386/alu_audit/copyset/alu_full.fa`.
+Sample: 30,000 copies, seed 1 (awk `srand(1)`, sorted). The sample follows the genome's mix: 9,096 AluSx, 5,706 AluJb,
+3,632 AluY, 2 AluYd8 (`s1.label_counts.txt`).
+
+**SubFam 1.5.1 `-n 50`:** 600 chunk consensuses, 5 min 7 s, 3.6 GB peak, toy test (1,000 copies) passed first.
+Chunk purity against the RepeatMasker names: mean 0.613; 64 chunks at 0.9 or more, 143 at 0.7-0.9, 393 below 0.7.
+(RepeatMasker names are themselves similarity calls, so low purity is not proof of poor chunks.)
+
+**Peel (`peel_features.py`, default parameters, none changed after seeing Alu data):** 2 groups, then "nothing separable".
+
+| group | chunks | copies | by RepeatMasker name |
+|---|---|---|---|
+| G1 (round 1) | 123 | 6,150 | AluJb 86 %; family: AluJ 93 %, AluS 6 %, AluY 0 % |
+| G2 (round 2) | 117 | 5,850 | AluY 60 %, AluSc 9 %, AluSx 6 %, AluSc8 6 %, AluYk3 4 %; family: AluY 74 %, AluS 26 % |
+| residue | 360 | 18,000 | AluSx 47 %, AluSx1 10 %, AluSz 8 %, AluSp 7 %; family: AluS 95 % |
+
+At defaults the peel recovers the three old/intermediate/young families (J, Y, S) and nothing inside S. Round 3 found
+22 features and 0 blocks in the 360 residue chunks. G1 chunk ids are at both ends of the guide-tree order (1-99 and
+574-600), so AluJ copies sit at both ends of SubFam's ordering.
+
+**Not yet known.** Whether S-internal structure exists in the 18,000 residue copies but is hidden by sampling 50-copy
+chunks across a mixed pool, or whether the peel's thresholds are too strict for a continuum. The planned test is the
+sequential step the owner described: take the S copies out of the whole set and sample again from that remainder, so the
+chunks and the alignment are built from S alone.
+
+**Process note.** The first two jobs of step 3 failed on `sort | head` under `pipefail` (broken pipe); the second
+resubmission still contained the bug because my patch did not apply and I did not check. Fixed in the script and
+verified on Monsoon before the third job.

@@ -1,0 +1,14 @@
+  trimmed to columns 1-336 of 349
+round 1: 600 seqs, 336 columns, 51 features, 3 blocks, 3 candidate groups
+  PEEL 123 seqs   3 feats  excl 0.896 (in 0.99 / out 0.10)  mostly ?      100% pure
+  peeled 123, 477 remain; re-aligning
+  trimmed to columns 1-324 of 336
+round 2: 477 seqs, 324 columns, 24 features, 1 blocks, 1 candidate groups
+  PEEL 117 seqs   6 feats  excl 0.914 (in 0.94 / out 0.03)  mostly ?      100% pure
+  peeled 117, 360 remain; re-aligning
+  trimmed to columns 1-315 of 328
+round 3: 360 seqs, 315 columns, 22 features, 0 blocks, 0 candidate groups
+  nothing separable, stopping
+
+peeled 2 groups over 2 rounds
+residue: 360 {'?': 360}
