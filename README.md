@@ -386,3 +386,29 @@ name, has no COSEG subfamily of its own; its copies sit in the four large COSEG 
 agreement is not independent evidence that these subfamilies are real lineages. Whether the diagnostic positions are
 shared lineage markers or recurrent CpG changes (section 3) is still untested: COSEG run with `-k` uses Price's
 original p-value, and Price excluded frequent CpG mutations; that exclusion has not been checked in COSEG's code.
+
+## 15. COSEG and RepeatMasker subfamilies judged by SINEderella step 2 (2026-11-11, toy result; full runs going)
+
+Owner's question: can COSEG and SINEderella be compared directly? Test: SINEderella's assignment step
+(`step2_asSINEment.sh`, unchanged) on the 527,234 firm AluS copies, once with a bank of the 26 COSEG subfamilies
+(consensus from up to 500 member copies each) and once with the 17 Dfam 4.0 AluS families (the RepeatMasker library).
+Script `scripts/13_bank_vs_S.sbatch`; Monsoon jobs 34200646 (COSEG bank) and 34200647 (Dfam bank), output
+`monsoon:/scratch/sk4386/alu_audit/round3/`.
+
+**Toy result (first 2,000 AluS copies, chr1):**
+
+| bank | firm (10/10) | not unanimous | how split the not-unanimous copies are |
+|---|---|---|---|
+| COSEG, 26 subfamilies | 44 (2.2 %) | 1,956 | most often 3-5 of 10 votes for the leading consensus |
+| Dfam/RepeatMasker, 17 AluS families | 26 (1.3 %) | 1,974 | most often 3-5 of 10 votes |
+
+Even the firm copies have a runner-up within 3-5 % of the best score (runner_ratio 0.95-0.97, so they are LEAK by
+step 3's 0.90 rule).
+
+**Reading.** AluS subfamilies differ at a few positions out of about 300, so a copy's score against two AluS consensuses
+differs by a few percent. That is the size of the run-to-run noise of `ssearch36 -z 11` (1-3 %, MANUAL), so the
+10-cycle vote splits and almost no copy is unanimous. This holds for RepeatMasker's own subfamilies as much as for
+COSEG's: **with step 2 as it is, SINEderella cannot assign copies among AluS subfamilies at all**, whoever defines them.
+So step 2 cannot be the judge between COSEG and RepeatMasker here. What would have to change is the assignment
+criterion for closely related subfamilies (score on the diagnostic positions rather than whole-copy bitscore, or a
+deterministic score without `-z 11` shuffling); that is a decision for the owner, not made here.
