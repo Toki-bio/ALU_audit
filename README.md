@@ -351,6 +351,11 @@ COSEG built from <https://github.com/rmhubley/coseg> commit cea334a on Monsoon (
   (Price's rule), 28,715 kept. Settings `-k -d -m 50`, nothing tuned. Run time 56 s.
 - **Result: 26 subfamilies** (14 leaves in COSEG's tree), each defined by named diagnostic positions
   (`s2.seqs.subfamilies`).
+- **Defect in the run, not yet fixed:** `runcoseg.pl` stopped while building consensus sequences, at an insertion
+  site of subfamily 24 (position 263), printing `OOPS s=24 x=263 consensus=~~~`, and still exited 0. The partition
+  (`s2.seqs.assign`) and the diagnostic positions (`s2.seqs.subfamilies`) are complete; the consensus file
+  `s2.seqs.subfamilies.seq` and the SVG tree were not written. Insertion handling in COSEG's post-processing has to be
+  read before COSEG consensuses are used anywhere.
 
 Where RepeatMasker names go (share of that name's copies in its main COSEG subfamily):
 
