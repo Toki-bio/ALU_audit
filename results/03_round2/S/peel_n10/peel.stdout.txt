@@ -1,0 +1,6 @@
+  trimmed to columns 8-500 of 536
+round 1: 3000 seqs, 493 columns, 258 features, 0 blocks, 0 candidate groups
+  nothing separable, stopping
+
+peeled 0 groups over 0 rounds
+residue: 3000 {'?': 3000}

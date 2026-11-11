@@ -312,3 +312,30 @@ parameters. A likely reason, to be tested rather than assumed: each chunk consen
 that are mostly AluSx, so the diagnostic bases of the smaller S subfamilies (AluSp, AluSc, AluSq, AluSg) are outvoted
 inside the chunks and never reach the peel. That is a property of chunk size against subfamily share, not evidence
 that AluS has no subfamilies.
+
+## 13. Round 2 with 10-copy chunks (owner's option 1, 2026-11-11, measured)
+
+Same AluS sample of 30,000 as section 12; only the chunk size changes: SubFam `-n 10 -p 0.6` (the SubFam10 pairing),
+3,000 chunk consensuses, 2 min 31 s. Script `scripts/09_round2_n10.sbatch`; random baseline
+`scripts/10_random_chunk_purity.py` (same labels shuffled with seed 1, cut into chunks of the same size).
+
+| chunks | mean purity | chunks at 0.7 or more | chunks at 0.9 or more |
+|---|---|---|---|
+| SubFam `-n 50` | 0.509 | 36 of 600 | 1 |
+| random, 50 | 0.471 | 0 | 0 |
+| SubFam `-n 10` | 0.543 | 753 of 3,000 | 119 |
+| random, 10 | 0.479 | 396 of 3,000 | 20 |
+
+Majority name of the `-n 10` chunks at purity 0.7 or more (sample size of that name in brackets): AluSx 578 (14,144),
+**AluSp 103 (1,827), AluSc 26 (877)**, AluJb 24 (730), AluSq2 7 (1,432), AluSg 6 (1,466), AluSx1 2 (2,789), AluSz 1
+(2,304), AluSz6 1 (1,205). At `-n 50` AluSp held 12 such chunks and AluSc 1.
+
+Peel, defaults, on the 3,000 consensuses: 493 alignment columns, 258 features, 0 blocks, **0 groups**.
+
+**What the test says (the prediction was written down before the run).** The outvoting explanation holds only in part.
+AluSp and AluSc gain chunks of their own once chunks are small: they are separated by SubFam's ordering and were being
+diluted at 50. AluSx1, AluSz, AluSz6, AluSq2 and AluSg do not: even at 10 copies per chunk the ordering does not bring
+their copies together, so chunk size is not what hides them. Their copies are not neighbours in the k-mer guide tree,
+which is built on whole-copy similarity and therefore dominated by each copy's private decay (about 12 % divergence),
+while these subfamilies differ from AluSx by a few diagnostic positions. Whether those positions are real
+synapomorphies or CpG changes is the question of section 3, still open. The peel found nothing at either chunk size.
