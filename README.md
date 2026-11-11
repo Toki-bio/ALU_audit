@@ -145,8 +145,11 @@ see the lists in `literature/SOURCES.md`.
   Supplementary Table 10 gives 652 germline and 120 postzygotic per-site SNVs. A per-site callable mask was not found in
   either paper; Noyes publish only the Snakefile that builds it.
 - Not found in a PubMed and web search (not exhaustive): a 2020-2026 paper that analyses Alu subfamily structure or CpG
-  decay genome-wide in T2T-CHM13. Nikitin et al. 2026 (R Soc Open Sci, <https://doi.org/10.1098/rsos.260639>) and
-  Tang & Liang 2020 (<https://doi.org/10.1016/j.ab.2020.113825>) were not opened and must be read before any novelty claim.
+  decay genome-wide in T2T-CHM13. Nikitin 2026 (R Soc Open Sci, <https://doi.org/10.1098/rsos.260639>) was read on
+  2026-11-11: it is an epigenomic study that takes the RepeatMasker subfamilies as given, so it does not overlap with this
+  audit. Tang & Liang 2020 (<https://doi.org/10.1016/j.ab.2020.113825>) is still unopened.
+- A third RepeatMasker call set for hs1 exists: RepeatMasker 4.2.2 with Dfam 3.9 (2025-10-31), with per-copy alignments,
+  at <https://www.repeatmasker.org/genomes/hs1/rmsk4.2.2_dfam3.9_rb20181026_rmb/>.
 
 **Compute server: Monsoon** (`sk4386@monsoon.hpc.nau.edu`, OpenSSH with `id_ed25519`; work under `/scratch/sk4386/`).
 Read-only look on 2026-11-11:

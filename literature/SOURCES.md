@@ -112,3 +112,21 @@ Section 2 and 3 literature statements. Every quote below is from a text I opened
 - The README's "Kojima 2018 Alu monomer revisited" does not match: the Alu monomer paper is Kojima 2010 (Mol Biol Evol).
 - Carey's 10 % is a replicate-pair discordance, not run-to-run variation.
 - Hoyt's 10.09 % is for T2T-CHM13v1.1, not v2.0.
+
+## G. Fetched by hand by the owner, 2026-11-11 (supersedes the BOT-BLOCKED status above)
+
+| source | file in `literature/` | read |
+|---|---|---|
+| Nikitin DM 2026, R Soc Open Sci 13:260639, 10.1098/rsos.260639 (single author) | `rsos.260639.pdf` | abstract, introduction, section on subfamilies, methods |
+| Bennett et al. 2008, Genome Res 18:1875 | `1875.pdf` | title page only |
+| Jurka & Smith 1988, PNAS 85:4775 | `jurka-smith-1988-a-fundamental-division-in-the-alu-family-of-repeated-sequences.pdf` | title page only |
+| Roy et al. 2000, Genome Res 10:1485 | `Genome Res.-2000-Roy-1485-95.pdf` | title page only |
+
+Nikitin 2026 is not an Alu subfamily analysis. It correlates ChIP-seq signal with divergence from consensus for
+3.7 million TEs in 1122 RepeatMasker subfamilies. Methods: "I used the T2T genome RepeatMasker classification without
+any amendments to comply with the widely accepted RepeatMasker classification." Age proxy: Kimura CpG-adjusted
+divergence from the RepeatMasker `.align` file. Alu result: AluYb8 and AluYb9 gain CTCF binding; "none of the remaining
+22 AluY subfamilies or other SINEs present in the T2T RepeatMasker track displayed significant correlations".
+It points to a newer RepeatMasker run of hs1 (RepeatMasker 4.2.2, Dfam 3.9, dated 2025-10-31):
+<https://www.repeatmasker.org/genomes/hs1/rmsk4.2.2_dfam3.9_rb20181026_rmb/> (`hs1.fa.out.gz` 187 MB,
+`hs1.fa.align.gz` 2.8 GB with per-copy alignments to the consensus).
