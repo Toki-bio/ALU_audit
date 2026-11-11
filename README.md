@@ -21,16 +21,22 @@ Two things, kept separate:
 - Alu subfamily discovery is largely COSEG-driven and was done lineage by lineage. COSEG numbers its subfamilies
   arbitrarily (subfamily0 ... subfamilyN), without regard to the stepwise accumulation of diagnostic mutations, and each
   primate genome got its own list (Storer et al. 2023, Genes 14:249, <https://doi.org/10.3390/genes14020249>).
-- More than 10 % of replicate copies change RepeatMasker subfamily between runs (Carey 2020, as cited in
-  SINEderella `docs/COSEG_COMPARISON_DESIGN.md`).
+- When the same insertion exists as two copies (segmental-duplication pairs, human-chimpanzee homologs) and each copy
+  is annotated separately, more than 10 % of such replicate pairs get different subfamilies; for Alu in
+  segmental-duplication pairs 12.4 % (Carey, Patterson, Wheeler 2021, Mobile DNA 12:4; the 2020 item is its preprint).
+  **Corrected 2026-11-11:** this is not run-to-run variation of RepeatMasker, as the earlier wording here and in
+  SINEderella `docs/COSEG_COMPARISON_DESIGN.md` said.
 - Many "subfamilies" contain several source elements, so consensus-based ages need reassessment
   (Wacholder et al. 2014, <https://doi.org/10.1371/journal.pgen.1004482>).
 - Active human subfamilies keep being added from population data, e.g. AluYb7a3, AluYb8b1 and AluYa4a1
   (Konkel et al. 2015, GBE 7:2608, <https://academic.oup.com/gbe/article/7/9/2608/592318>).
 - Alu is about 10.09 % of T2T-CHM13 (308 Mbp) by the table in
   <https://pmc.ncbi.nlm.nih.gov/articles/PMC13604091>.
-- **To find before claiming novelty:** a search result mentions an analysis of 118,489 full-length AluY copies annotated
-  in T2T-CHM13. The paper has not been identified yet.
+- **Identified 2026-11-11:** the 118,489 full-length AluY analysis is Halabian, Storer, Hoyt, Hartley, Brosius, O'Neill,
+  Makalowski, "Exploring Alu-driven DNA transductions in the primate genomes", bioRxiv 2024,
+  <https://doi.org/10.1101/2024.04.29.591526>. RepeatMasker gave 166,483 AluY in CHM13v2.0; 128,695 were full-length;
+  118,489 remained after removing copies in segmental duplications. It studies 3' transductions, not subfamily structure.
+- The Alu share above (10.09 %, 308 Mbp) is from Hoyt et al. 2022 Table 2 and refers to CHM13 v1.1, not v2.0.
 
 ## 3. The CpG problem (the main scientific risk)
 
@@ -124,3 +130,44 @@ MSA-viewer (manual review).
 - Contents of the supplementary tables of the two de novo mutation papers were not opened.
 - Carey 2020 and Wacholder 2014 are cited here from notes in the other repositories, not from a fresh reading.
 - Numbers in section 4 are copied from the READMEs and logs at the stated commits; they were not recomputed.
+
+## 9. Background phase, 2026-11-11 (no analysis run)
+
+**Literature.** `literature/SOURCES.md` lists every source with its access status and the check of each literature
+statement in sections 2 and 3 against the opened text (verbatim quotes, section F). Full texts are kept locally and are
+not in the repository. Read as abstract only: Xing et al. 2004. Still to be fetched by hand (paywalled or bot-blocked):
+see the lists in `literature/SOURCES.md`.
+
+- Price et al. 2004 exclude frequent CpG mutations when defining subfamilies. This matters for section 3.
+- Doronina et al. 2021 (Genes): 98 clear Alu-to-Alu gene conversion cases among 68,097 Alu insertions.
+- De novo data: Noyes et al. 2026 Supplementary Data 1 gives per-site de novo SNVs on T2T-CHM13v2.0, and Data 2 a
+  RepeatMasker column per site; the Source Data sum to 704 germline SNVs in Alu across 73 children. Porubsky et al. 2025
+  Supplementary Table 10 gives 652 germline and 120 postzygotic per-site SNVs. A per-site callable mask was not found in
+  either paper; Noyes publish only the Snakefile that builds it.
+- Not found in a PubMed and web search (not exhaustive): a 2020-2026 paper that analyses Alu subfamily structure or CpG
+  decay genome-wide in T2T-CHM13. Nikitin et al. 2026 (R Soc Open Sci, <https://doi.org/10.1098/rsos.260639>) and
+  Tang & Liang 2020 (<https://doi.org/10.1016/j.ab.2020.113825>) were not opened and must be read before any novelty claim.
+
+**Compute server: Monsoon** (`sk4386@monsoon.hpc.nau.edu`, OpenSSH with `id_ed25519`; work under `/scratch/sk4386/`).
+Read-only look on 2026-11-11:
+
+- Quota: `/scratch` 7.6 of 13.7 TB and 903k of 2.0 M files.
+- Present: `ssearch36`, `mafft`, `bedtools`, `samtools`, `seqkit`, `minimap2`, `blastn`, `bwa` (conda env `bioinfo`);
+  modules `repeatmasker/4.2.4`, `rmblast/2.17.0`, `mafft/7.526`; `/projects/tollis_lab/databases/Dfam.h5`.
+- Outdated: `/home/sk4386/bin/SINEderella-dev` (commit 9624a0e, 2026-02-15) and `/home/sk4386/bin/SubFam` (2025-10-16).
+  Current sources are SINEderella 7a3a794 and SubFam 1.5.1 (53a3a47) on GitHub.
+- Not found on Monsoon: a human genome (hg38 or T2T-CHM13), COSEG, EMBOSS `cons` on PATH.
+- Public inputs, reachable, not downloaded: UCSC `hs1.fa.gz` and `hs1.repeatMasker.out.gz`
+  (<https://hgdownload.soe.ucsc.edu/goldenPath/hs1/bigZips/>), and the T2T consortium
+  `chm13v2.0_RepeatMasker_4.1.2p1.2022Apr14.out`.
+
+**Tools, as read from source on 2026-11-11.**
+
+- SubFam 1.5.1 needs only bash, awk, MAFFT and a C compiler. Its k-mer ordering holds an n x n matrix (30,000 copies:
+  3.6 GB), so the whole Alu set cannot be ordered in one run; `-P` (PartTree) uses far less memory with less pure chunks.
+- The peel is `peel_features.py` in SINE-discriminator, calibrated on Timema, run on Alu only for the 295 Konkel loci.
+- The Price 2004 supplement with the 213 consensuses is at `C:\work\SubFam\SUBFAMILIES.FINAL.txt` (local, 213 records);
+  the 42 Dfam 4.0 human Alu families are in SubFam `benchmark/alu_hg38/results/dfam_alu.fa`.
+- COSEG 0.2.4 was built only in a cloud container for `benchmark/alu_konkel`; there is no server install.
+- Not recorded anywhere found: the SINEderella command line of the Tal hg38 run, and the script behind its
+  RepeatMasker concordance numbers.
