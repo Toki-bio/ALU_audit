@@ -1,0 +1,307 @@
+<title>Alu Audit Log</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow lab-notebook column; dated steps down the left rule, numbers in tables, paths in mono. */
+:root{
+  --bg:#f6f7f5; --fg:#1d2420; --muted:#5d6a63; --rule:#d5dbd6; --panel:#ffffff;
+  --accent:#1f6f5c; --warn:#a4560f; --ok:#2e7d32; --bar:#7fb7a6;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --fg:#e4eae6; --muted:#9aa8a0; --rule:#2e3833; --panel:#1b221e;
+  --accent:#6fcfb4; --warn:#e5a35c; --ok:#7fcf84; --bar:#3f7f6e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --fg:#e4eae6; --muted:#9aa8a0; --rule:#2e3833; --panel:#1b221e;
+  --accent:#6fcfb4; --warn:#e5a35c; --ok:#7fcf84; --bar:#3f7f6e; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.6;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:820px;margin:0 auto}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px;font-weight:600;text-wrap:balance}
+h2{font-size:19px;margin:44px 0 12px;font-weight:600;text-wrap:balance}
+h3{font-size:15px;margin:22px 0 6px;font-weight:600}
+p{margin:8px 0;max-width:68ch}
+a{color:var(--accent)}
+code,.mono{font-family:var(--font-mono);font-size:13px}
+.sub{color:var(--muted);margin:0 0 4px}
+.meta{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);margin-bottom:24px}
+.steps{border-left:2px solid var(--rule);margin:10px 0 0 6px;padding-left:20px;display:flex;flex-direction:column;gap:18px}
+.step{position:relative;min-width:0}
+.step::before{content:"";position:absolute;left:-27px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.step.run::before{background:var(--warn)}
+.tag{font-family:var(--font-mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.step b{font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;margin:12px 0;min-width:0}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:5px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+td.l,th.l{text-align:left;white-space:normal}
+.claims{table-layout:fixed}
+.claims th,.claims td{white-space:normal;text-align:left;vertical-align:top;padding:8px 10px}
+.claims th:first-child,.claims td:first-child{width:32%}
+@media (max-width:560px){.claims,.claims tbody,.claims tr,.claims td,.claims th{display:block;width:auto}
+  .claims thead{display:none}.claims tr{padding:8px 0;border-bottom:1px solid var(--rule)}
+  .claims td{border:0;padding:2px 10px}.claims td:first-child{width:auto;font-weight:600}}
+.bar{display:inline-block;height:9px;background:var(--bar);border-radius:2px;vertical-align:middle;margin-left:8px}
+.ok{color:var(--ok);font-weight:600}.warn{color:var(--warn);font-weight:600}
+ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
+.paths td{white-space:normal;word-break:break-all;text-align:left;font-size:13px}
+.paths td:first-child{width:34%;font-family:var(--font-body);word-break:normal}
+.paths td:last-child{font-family:var(--font-mono);font-size:12.5px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+
+<main>
+<h1>Alu audit: what was done and what was found</h1>
+<p class="sub">Tool-assisted audit of Alu subfamilies and copies in the human T2T-CHM13 assembly. Session log: background, copy set, sequential peeling, COSEG, and SINEderella step 2 with an AluY control.</p>
+<p class="meta">updated 2026-11-11 · repository <a href="https://github.com/Toki-bio/ALU_audit">github.com/Toki-bio/ALU_audit</a> · this page is stored there as <code>docs/alu_audit_process.html</code> · full detail in README sections 9–16 · compute on Monsoon</p>
+
+<h2>Where the project stood</h2>
+<p>The repository held starting notes only: nothing had been run. The notes list what exists in other repositories (all on hg38), what the literature leaves open, and a proposed order of work. This session picked it up with three instructions: learn the existing tools, use Monsoon for computation, and fetch the background literature, listing what could not be fetched.</p>
+
+<h2>Timeline</h2>
+<div class="steps">
+
+<div class="step"><div class="tag">1 · Background</div>
+<p><b>Tools read from source.</b> SubFam 1.5.1, the peel (<code>peel_features.py</code> in SINE-discriminator), both Alu benchmarks in SubFam, the Tal whole-hg38 SINEderella run, SINE_orth_loc, MSA-viewer, and the SINEderella–COSEG test design. Findings that shape the plan:</p>
+<ul>
+<li>SubFam orders copies with an n × n k-mer matrix: 30,000 copies need 3.6 GB, so the whole Alu set cannot go through it in one run.</li>
+<li>The peel was calibrated on <i>Timema</i>. On Alu it has run only on 295 Konkel loci.</li>
+<li>COSEG was built only in a cloud container; no server has it.</li>
+<li>Not recorded anywhere found: the SINEderella command line of the Tal hg38 run, and the script behind its RepeatMasker concordance numbers.</li>
+</ul></div>
+
+<div class="step"><div class="tag">2 · Literature</div>
+<p><b>About 30 sources downloaded and every literature statement in the README checked against the opened text.</b> Quotes and locators are in <code>literature/SOURCES.md</code>. Papers that were paywalled or bot-blocked were fetched by hand by the owner (two batches of ten) and added.</p>
+<div class="panel scroll"><table class="claims">
+<thead><tr><th>README statement</th><th class="l">Result</th></tr></thead>
+<tbody>
+<tr><td>Carey: more than 10 % of replicate copies change subfamily between runs</td><td class="l"><span class="warn">Wrong as worded.</span> Carey, Patterson, Wheeler 2021, Mobile DNA 12:4. It concerns two copies of the same insertion (segmental-duplication pairs, human–chimp homologs) annotated separately; 12.4 % for Alu in segmental-duplication pairs. README corrected.</td></tr>
+<tr><td>118,489 full-length AluY copies in T2T-CHM13</td><td class="l"><span class="ok">Identified.</span> Halabian et al. 2024, bioRxiv 10.1101/2024.04.29.591526: 166,483 AluY, 128,695 full-length, 118,489 after removing segmental duplications. A study of 3′ transductions, not of subfamilies.</td></tr>
+<tr><td>Alu is 10.09 % of CHM13 (308 Mbp)</td><td class="l"><span class="ok">Confirmed</span>, but the figure is Hoyt 2022 Table 2 for CHM13 v1.1, not v2.0.</td></tr>
+<tr><td>CpG : non-CpG ratio about 6 (Xing 2004)</td><td class="l"><span class="ok">Confirmed from the full text:</span> 5,296 elements, 20 subfamilies; mean R 6.72 AluY, 6.18 AluS, 3.67 AluJ.</td></tr>
+<tr><td>Storer 2023, Wacholder 2014, Konkel 2015, Price 2004 (213 subfamilies), Noyes 2026 and Porubsky 2025 de novo data</td><td class="l"><span class="ok">Confirmed</span> against opened text.</td></tr>
+<tr><td>Nikitin 2026, Tang &amp; Liang 2020</td><td class="l">Read. Neither analyses Alu subfamily structure: one is an epigenomic study that takes the RepeatMasker subfamilies as given, the other a master-copy study on hg38.</td></tr>
+</tbody></table></div>
+<p>De novo data: Noyes Supplementary Data 1 has per-site de novo SNVs on T2T-CHM13v2.0; the source data sum to 704 germline Alu SNVs in 73 children, which fits the README estimate of 600–800. No per-site callable mask was found in either de novo paper. A search for a 2020–2026 paper on genome-wide Alu subfamily structure or CpG decay in T2T-CHM13 found none; the search was not exhaustive.</p></div>
+
+<div class="step"><div class="tag">3 · Server</div>
+<p><b>Monsoon prepared.</b> It connects with OpenSSH and <code>id_ed25519</code>; plink rejects that key, so the plink line in the connection notes does not work for Monsoon. The first connection after a long gap failed twice and then worked.</p>
+<ul>
+<li><code>/scratch</code>: 7.6 of 13.7 TB and 905k of 2.0 M files.</li>
+<li>Present: <code>ssearch36</code>, <code>mafft</code> 7.525, <code>bedtools</code>, <code>samtools</code>, <code>seqkit</code>, <code>minimap2</code>, gcc 14.3, python 3.13 with numpy.</li>
+<li>The older copies of SINEderella and SubFam in the home folder were replaced for this project by fresh clones: SubFam 53a3a47 (1.5.1), SINEderella 7a3a794, SINE-discriminator f0db37f.</li>
+<li>Not found on Monsoon: a human genome, COSEG, EMBOSS <code>cons</code> on the path.</li>
+</ul></div>
+
+<div class="step"><div class="tag">4 · Decisions</div>
+<ul>
+<li>Reference call set, chosen by the owner: RepeatMasker 4.2.2 with Dfam 3.9, run on hs1 and dated 2025-10-31.</li>
+<li>Step 3 of the plan, in the owner's words: “subfam on all alu is impractical, sequential peeling is the key.” Reading used here, to be confirmed: SubFam on a sample, peel the isolated groups, build each consensus from member copies, assign and remove those copies from the whole set, sample again from the remainder, repeat until only ungroupable copies are left.</li>
+<li>Mode: autonomous from this point.</li>
+</ul></div>
+
+<div class="step"><div class="tag">5 · Download</div>
+<p><b>Job 34188685, 6 min 30 s, completed.</b> <code>hs1.fa.gz</code> matches the UCSC md5. The two RepeatMasker files have the exact byte size the server reports and pass <code>gzip -t</code>; no md5 is published for them.</p></div>
+
+<div class="step"><div class="tag">6 · Copy set</div>
+<p><b>Alu rows extracted from the RepeatMasker file</b> (<code>scripts/02_alu_table.sh</code>, a short awk job). Before extracting I looked at the raw rows: 5,565,528 rows in total, chromosome names equal to the genome FASTA, 1,204,897 of class <code>SINE/Alu</code>, and related rows outside that class (7SLRNA, BC200, HY RNAs) that are kept in a separate boundary table without a decision on scope.</p>
+<div class="panel scroll"><table>
+<tbody>
+<tr><td>Alu rows / bp / names</td><td>1,204,897 / 312,531,330 / 49</td></tr>
+<tr><td>Elements by RepeatMasker ID</td><td>1,163,404 (1,123,252 in one row, 38,876 in two, 1,276 in three or more)</td></tr>
+<tr><td>Elements with more than one name across their rows</td><td>497</td></tr>
+<tr><td>Rows overlapped by a better match (starred)</td><td>1,991</td></tr>
+</tbody></table></div>
+<h3>Controls with a known answer</h3>
+<div class="panel scroll"><table>
+<thead><tr><th>check</th><th>this run</th><th>published</th><th>difference</th></tr></thead>
+<tbody>
+<tr><td>Alu bp without chrY</td><td>308,285,313</td><td>308,309.7 kbp (Hoyt 2022)</td><td class="ok">0.008 %</td></tr>
+<tr><td>AluY-named rows</td><td>166,151</td><td>166,483 (Halabian 2024)</td><td class="ok">0.2 %</td></tr>
+</tbody></table></div>
+<p>Both agree despite different RepeatMasker and Dfam versions.</p></div>
+
+<div class="step"><div class="tag">7 · Anomaly</div>
+<p><b>Several young-named subfamilies have an old divergence mode.</b> Among full-length rows (at least 0.9 of the consensus covered), RepeatMasker divergence from the consensus:</p>
+<div class="panel scroll"><table>
+<thead><tr><th>name</th><th>full-length rows</th><th>at 0–2 %</th><th>at 10 % or more</th></tr></thead>
+<tbody>
+<tr><td>AluYa5</td><td>3,525</td><td>3,018</td><td>309 (9 %)<span class="bar" style="width:9px"></span></td></tr>
+<tr><td>AluYb8</td><td>3,013</td><td>2,027</td><td>787 (26 %)<span class="bar" style="width:26px"></span></td></tr>
+<tr><td>AluYg6</td><td>1,136</td><td>356</td><td>653 (57 %)<span class="bar" style="width:57px"></span></td></tr>
+<tr><td>AluYa8</td><td>1,134</td><td>43</td><td>782 (69 %)<span class="bar" style="width:69px"></span></td></tr>
+<tr><td>AluYk12</td><td>519</td><td>62</td><td>423 (82 %)<span class="bar" style="width:82px"></span></td></tr>
+<tr><td>AluYh9</td><td>356</td><td>0</td><td>328 (92 %)<span class="bar" style="width:92px"></span></td></tr>
+<tr><td>AluY</td><td>101,092</td><td>1,922</td><td>11,031 (11 %)<span class="bar" style="width:11px"></span></td></tr>
+</tbody></table></div>
+<p>A copy 13–16 % from the consensus of a subfamily that expanded in the human lineage is older than that subfamily can be, so these rows are candidates for a wrong name. Possible causes to separate: an old AluS or AluJ copy matching a young consensus by chance or through parallel CpG changes; gene conversion; a subfamily that is in fact old (AluYh9 has no row under 6 %). Nothing here has been tested yet.</p></div>
+
+<div class="step"><div class="tag">8 · SubFam on a sample</div>
+<p><b>824,790 full-length dimeric Alu extracted</b> (one RepeatMasker row for its ID, at least 0.9 of the consensus covered, 250–350 bp, monomers left out; 247.7 Mbp, no N). A seed-1 sample of 30,000 went through SubFam 1.5.1 <code>-n 50</code>: <b>600 chunk consensuses</b> in 5 min 7 s, 3.6 GB. A 1,000-copy toy test passed first.</p>
+<p>Chunk purity against RepeatMasker names: mean 0.613; 64 chunks at 0.9 or more, 143 at 0.7–0.9, 393 below 0.7. RepeatMasker names are similarity calls themselves, so this is not a verdict on the chunks.</p>
+<p><b>Failures on the way.</b> The first two jobs died in the sampling line (<code>sort | head</code> under <code>pipefail</code>: broken pipe). My first patch did not apply and I resubmitted the unfixed script without checking. The third job ran after I verified the fix on Monsoon.</p></div>
+
+<div class="step"><div class="tag">9 · Peel, round 1</div>
+<p><b>The peel at its default parameters</b> (none changed after seeing Alu data) found two groups, then reported "nothing separable".</p>
+<div class="panel scroll"><table class="claims">
+<thead><tr><th>group</th><th>chunks / copies</th><th>RepeatMasker names inside</th></tr></thead>
+<tbody>
+<tr><td>G1, round 1</td><td>123 / 6,150</td><td>AluJb 86 %; by family AluJ 93 %, AluS 6 %</td></tr>
+<tr><td>G2, round 2</td><td>117 / 5,850</td><td>AluY 60 %, AluSc 9 %, AluSx 6 %, AluSc8 6 %; by family AluY 74 %, AluS 26 %</td></tr>
+<tr><td>Residue</td><td>360 / 18,000</td><td>AluSx 47 %, AluSx1 10 %, AluSz 8 %, AluSp 7 %; by family AluS 95 %</td></tr>
+</tbody></table></div>
+<p>At defaults the peel recovers the old, intermediate and young families and nothing inside AluS. Round 3 found 22 features and no block among the 360 residue chunks. The AluJ chunks sit at both ends of SubFam's ordering (ids 1–99 and 574–600).</p>
+<p>Next, as the owner described it: take the S copies out of the whole set and sample again from that remainder.</p></div>
+
+
+<div class="step"><div class="tag">10 · Assignment of all copies</div>
+<p><b>Consensuses built from 500 member copies per group</b> match Dfam closely: G1 is AluJo at 97.0 %, G2 is AluY at 100 %, the residue is AluSx at 99.7 %.</p>
+<p><b>Two failed attempts, both mine.</b> One <code>ssearch36</code> run on the whole library reported only 62,957 of 824,790 copies. In blocks, with <code>-z 1</code>, the statistics were estimated from a library that is entirely Alu, so best and runner-up differed by under 5 bits for nearly every copy; the built-in control (0.669) stopped the job. I should have used SINEderella step 2 from the start.</p>
+<p><b>SINEderella step 2, unchanged</b> (10 cycles, 10/10 unanimity, 0.45 × top-N), 36 min on 32 cores: 797,760 of 824,790 copies firm (96.7 %): 527,234 to the AluS consensus, 145,702 to AluJ, 124,824 to AluY. <b>Control passed:</b> 27,123 of 29,019 firm round-1 sample copies (0.935) went to their own group.</p></div>
+
+<div class="step"><div class="tag">11 · Peel, round 2 (AluS only)</div>
+<p>A new sample of 30,000 firm AluS copies (seed 2) went through SubFam <code>-n 50</code> (600 chunks, mean purity against RepeatMasker names 0.509) and the peel at defaults: <b>21 features, no block, no group.</b></p>
+<p>Removing AluJ and AluY did not make structure inside AluS visible at these settings. A likely reason, not yet tested: each chunk consensus is a plurality vote over 50 copies that are mostly AluSx, so diagnostic bases of the smaller S subfamilies (AluSp, AluSc, AluSq, AluSg) are outvoted inside the chunks and never reach the peel.</p></div>
+
+<div class="step"><div class="tag">12 · 10-copy chunks (owner's option 1)</div>
+<p>Same AluS sample, SubFam <code>-n 10 -p 0.6</code>: 3,000 chunk consensuses. The prediction, written before the run: if small subfamilies were outvoted inside 50-copy chunks, purity must rise and the small AluS names must hold chunks of their own.</p>
+<div class="panel scroll"><table>
+<thead><tr><th>chunks</th><th>mean purity</th><th>at 0.7+</th><th>at 0.9+</th></tr></thead>
+<tbody>
+<tr><td>SubFam, 50</td><td>0.509</td><td>36 of 600</td><td>1</td></tr>
+<tr><td>random, 50</td><td>0.471</td><td>0</td><td>0</td></tr>
+<tr><td>SubFam, 10</td><td>0.543</td><td>753 of 3,000</td><td>119</td></tr>
+<tr><td>random, 10</td><td>0.479</td><td>396 of 3,000</td><td>20</td></tr>
+</tbody></table></div>
+<p><b>Partly confirmed.</b> AluSp (103 chunks at 0.7 or more, against 12 at chunk size 50) and AluSc (26, against 1) separate once chunks are small. AluSx1, AluSz, AluSz6, AluSq2 and AluSg do not (1–7 chunks each): their copies are not neighbours in SubFam's whole-copy k-mer ordering even at 10 copies per chunk, so chunk size is not what hides them. The peel found 258 features, no block, <b>no group</b>.</p></div>
+
+<div class="step"><div class="tag">13 · COSEG and RepeatMasker</div>
+<p>COSEG (built from GitHub, commit cea334a) ran on the same 30,000 AluS copies with the settings of its Alu example; its bundled Price example ran first as a control (4 subfamilies). 28,715 copies passed Price's end-completeness rule. <b>COSEG found 26 subfamilies</b>, each defined by named diagnostic positions.</p>
+<div class="panel scroll"><table>
+<thead><tr><th>RepeatMasker name</th><th>copies</th><th>main COSEG subfamily</th></tr></thead>
+<tbody>
+<tr><td>AluSp</td><td>1,770</td><td>82 %</td></tr>
+<tr><td>AluSz6</td><td>1,149</td><td>74 %</td></tr>
+<tr><td>AluSq2</td><td>1,392</td><td>65 %</td></tr>
+<tr><td>AluSz</td><td>2,209</td><td>63 %</td></tr>
+<tr><td>AluSc</td><td>846</td><td>56 %</td></tr>
+<tr><td>AluSx1</td><td>2,663</td><td>47 %</td></tr>
+<tr><td>AluSx</td><td>13,475</td><td>30 %, spread over four subfamilies</td></tr>
+</tbody></table></div>
+<p>Overall agreement with RepeatMasker names: V-measure 0.283. COSEG separates AluSz, AluSz6 and AluSq2, which SubFam's ordering and the peel never did: it tests co-occurring changes at single positions, while SubFam orders copies by whole-copy similarity. COSEG and RepeatMasker both work from consensus positions, so their agreement is not independent proof of real lineages, and the CpG question is still open.</p>
+<p><b>Defect:</b> COSEG stopped while building consensus sequences (an insertion site in subfamily 24) and still exited 0. The partition is complete; the consensuses and tree were not written.</p></div>
+
+<div class="step"><div class="tag">14 · COSEG vs RepeatMasker, judged by SINEderella step 2</div>
+<p><b>The owner's question: can COSEG and SINEderella be compared directly?</b> The test runs SINEderella's assignment step (<code>step2_asSINEment.sh</code>, unchanged) on all 527,234 firm AluS copies twice, with two banks:</p>
+<ul>
+<li><b>COSEG bank:</b> the 26 COSEG subfamilies. Each consensus is built from up to 500 member copies (MAFFT, then a plurality vote per column), because COSEG did not write its own consensuses.</li>
+<li><b>RepeatMasker bank:</b> the 17 Dfam 4.0 AluS families (AluSc … AluSz6), unchanged.</li>
+</ul>
+<p>Script <code>scripts/13_bank_vs_S.sbatch</code>, jobs 34200646 (COSEG) and 34200647 (Dfam).</p>
+<p><b>Step 2 reads as follows.</b> Two near-identical consensuses differ only at their diagnostic positions, so the difference in score between them is the contribution of those positions. The 10 shuffled cycles with a 10/10 unanimity rule remove copies whose win is within the noise. A copy that wins all 10 cycles is <b>firm</b>; the rest go to soft assignment in step 3.5 and are not lost.</p>
+<p><b>A correction.</b> My first reading of the toy said that step 2 “cannot assign” AluS copies, and I proposed scoring on diagnostic positions instead. The owner objected: step 2 was built to focus on diagnostic positions through its 10 votes. The objection is right, and the reading above replaces mine.</p>
+<p><b>Toy (first 2,000 copies):</b> 44 firm with the COSEG bank (2.2 %) against 26 with the Dfam bank (1.3 %). These 2,000 copies all come from chr1:17,012–8,916,930, and the full run shows they were not representative (step 16).</p></div>
+
+<div class="step"><div class="tag">15 · Control with a known answer: AluY</div>
+<p><b>Why a control.</b> The owner concluded that “the alu requires careful reconsideration because current system doesn't hold”. Before reading a low firm rate as “these subfamilies are not real”, the same step 2 was run where the answer is known. AluYa5 and AluYb8 are real lineages, confirmed by population data.</p>
+<p>Inputs: the 124,824 firm AluY copies and all 20 Dfam AluY consensuses, step 2 unchanged (<code>scripts/14_control_Y.sbatch</code>, job 34200661). Result: 6,398 firm (5.1 %).</p>
+<div class="panel scroll"><table>
+<thead><tr><th>RepeatMasker name</th><th>copies</th><th>firm</th><th>firm back to own name</th></tr></thead>
+<tbody>
+<tr><td>AluYa5</td><td>3,219</td><td>2,946 (91.5 %)<span class="bar" style="width:92px"></span></td><td class="ok">100 %</td></tr>
+<tr><td>AluYc3</td><td>306</td><td>302 (98.7 %)<span class="bar" style="width:99px"></span></td><td>98.7 %</td></tr>
+<tr><td>AluYd8</td><td>157</td><td>121 (77.1 %)<span class="bar" style="width:77px"></span></td><td>91.7 %</td></tr>
+<tr><td>AluYg6</td><td>535</td><td>349 (65.2 %)<span class="bar" style="width:65px"></span></td><td>99.7 %</td></tr>
+<tr><td>AluYe5</td><td>2,059</td><td>635 (30.8 %)<span class="bar" style="width:31px"></span></td><td>99.4 %</td></tr>
+<tr><td>AluYb8</td><td>2,276</td><td>5 (0.2 %)</td><td class="warn">0 of 5</td></tr>
+<tr><td>AluY</td><td>94,435</td><td>1,081 (1.1 %)<span class="bar" style="width:1px"></span></td><td>4.5 %</td></tr>
+</tbody></table></div>
+<p><b>AluYa5 passes. AluYb8 fails, but only on unanimity.</b> AluYb8 is the plurality call for 2,057 of its 2,276 copies (90 %), always with 6–9 votes of 10 and never 10. A vote-by-vote check showed where the other votes go: 2,055 of those 2,057 copies give them to AluYb9 (5,237 of 20,570 votes, against 15,286 for AluYb8). The two bank consensuses are 318 bp each and differ at <b>one aligned position</b> (column 174: AluYb8 C, AluYb9 G). One diagnostic base is within step 2's noise, so the cycles split between the two.</p>
+<p><b>Lesson.</b> A low firm rate cannot by itself mean that a subfamily is not real. It also measures how close the bank's consensuses are to each other. The broad parental consensus (AluY) collects almost no firm copies.</p></div>
+
+<div class="step"><div class="tag">16 · Full run, RepeatMasker AluS bank</div>
+<p><b>118,169 of 527,234 AluS copies firm (22.4 %)</b>, not the 1.3 % the toy suggested. Of the firm copies, those that go back to their own RepeatMasker name:</p>
+<div class="panel scroll"><table>
+<thead><tr><th>RepeatMasker name</th><th>copies</th><th>firm</th><th>firm back to own name</th></tr></thead>
+<tbody>
+<tr><td>AluSp</td><td>32,986</td><td>28,555 (86.6 %)</td><td class="ok">99.6 %</td></tr>
+<tr><td>AluSx4</td><td>6,426</td><td>3,815 (59.4 %)</td><td class="ok">98.8 %</td></tr>
+<tr><td>AluSz</td><td>39,848</td><td>7,448 (18.7 %)</td><td class="ok">98.4 %</td></tr>
+<tr><td>AluSc</td><td>15,784</td><td>10,231 (64.8 %)</td><td class="ok">97.0 %</td></tr>
+<tr><td>AluSc5</td><td>2,422</td><td>1,866 (77.0 %)</td><td class="ok">96.2 %</td></tr>
+<tr><td>AluSq2</td><td>25,608</td><td>4,505 (17.6 %)</td><td>92.5 %</td></tr>
+<tr><td>AluSz6</td><td>21,153</td><td>4,876 (23.1 %)</td><td>91.2 %</td></tr>
+<tr><td>AluSg7</td><td>5,155</td><td>3,468 (67.3 %)</td><td>87.8 %</td></tr>
+<tr><td>AluSg4</td><td>4,075</td><td>891 (21.9 %)</td><td class="warn">46.5 %</td></tr>
+<tr><td>AluSc8</td><td>2,220</td><td>414 (18.6 %)</td><td class="warn">24.6 %</td></tr>
+<tr><td>AluSg</td><td>25,222</td><td>761 (3.0 %)</td><td class="warn">22.3 %</td></tr>
+<tr><td>AluSx1</td><td>49,087</td><td>454 (0.9 %)</td><td class="warn">57.3 %</td></tr>
+<tr><td>AluSx</td><td>247,126</td><td>41,422 (16.8 %)</td><td class="warn">0.4 %</td></tr>
+</tbody></table></div>
+<p>AluSx is the broad parental name: its firm copies go almost entirely to child subfamilies. The set also holds copies that RepeatMasker calls AluJb (12,942) or AluY-named (several thousand); in round 2 they were assigned to the S consensus, so their firm calls here never match their own name.</p>
+<h3>Firm rate by copy age</h3>
+<p>Copies are binned by RepeatMasker divergence from the consensus (<code>copyset/alu_full.bed</code> column 5).</p>
+<div class="panel scroll"><table>
+<thead><tr><th>divergence</th><th>AluY copies</th><th>AluY firm</th><th>AluS copies</th><th>AluS firm</th></tr></thead>
+<tbody>
+<tr><td>0–2 %</td><td>6,779</td><td>52.7 %<span class="bar" style="width:53px"></span></td><td>–</td><td>–</td></tr>
+<tr><td>2–4 %</td><td>5,382</td><td>20.0 %<span class="bar" style="width:20px"></span></td><td>49</td><td>77.6 %<span class="bar" style="width:78px"></span></td></tr>
+<tr><td>4–6 %</td><td>25,711</td><td>3.0 %<span class="bar" style="width:3px"></span></td><td>1,881</td><td>69.0 %<span class="bar" style="width:69px"></span></td></tr>
+<tr><td>6–8 %</td><td>47,263</td><td>1.2 %<span class="bar" style="width:1px"></span></td><td>24,158</td><td>49.6 %<span class="bar" style="width:50px"></span></td></tr>
+<tr><td>8–10 %</td><td>28,951</td><td>0.9 %</td><td>109,846</td><td>29.9 %<span class="bar" style="width:30px"></span></td></tr>
+<tr><td>10–12 %</td><td>8,646</td><td>0.9 %</td><td>183,992</td><td>19.0 %<span class="bar" style="width:19px"></span></td></tr>
+<tr><td>12–14 %</td><td>1,677</td><td>1.7 %</td><td>131,884</td><td>16.5 %<span class="bar" style="width:17px"></span></td></tr>
+<tr><td>14–16 %</td><td>318</td><td>3.1 %</td><td>53,674</td><td>19.1 %<span class="bar" style="width:19px"></span></td></tr>
+<tr><td>16–18 %</td><td>72</td><td>2.8 %</td><td>16,635</td><td>23.6 %<span class="bar" style="width:24px"></span></td></tr>
+</tbody></table></div>
+<p>In both sets the firm rate falls as copies get older. That is what decay erasing diagnostic positions would produce. But age and subfamily are mixed: the young bins are mostly AluYa5 and AluSp. So the pattern fits decay without proving it.</p>
+<h3>A measure that does not work for Alu</h3>
+<p>SINEderella flags a firm copy as a <b>leak</b> when the runner-up scores at least 0.90 of the winner. Every firm copy in both runs has a ratio of 0.92 or more, most of them 0.96–0.98. So all firm copies are leaks (100 %). Alu subfamilies differ at fewer positions than the SINE subfamilies that the 0.90 cut was set for, and here the cut separates nothing. It is not used.</p></div>
+
+<div class="step run"><div class="tag">17 · Running: COSEG bank on all AluS copies</div>
+<p>Job 34200646 is still running (2 h 18 min at the last check). When it ends, the same tables will be added here for the 26 COSEG subfamilies. The self-check will be whether sample copies go back to their own COSEG subfamily, and the firm rate will be compared with the RepeatMasker bank's 22.4 %.</p></div>
+
+<div class="step"><div class="tag">So far</div>
+<p>What the data show:</p>
+<ul>
+<li><b>Young subfamilies with their own diagnostic positions are recovered firmly</b> and agree with RepeatMasker: AluYa5, AluSp, AluSc, AluSz, AluSx4.</li>
+<li><b>Broad parental names collect almost no firm copies of their own:</b> AluY, AluSx.</li>
+<li><b>Near-twin consensuses split the votes,</b> even for a lineage known to be real (AluYb8 and AluYb9, one base apart).</li>
+<li><b>Older copies are less often firm.</b></li>
+</ul>
+<p>So the data do not yet show that the AluS system fails as a whole. They point to two specific weak spots: parental consensuses, and pairs of consensuses separated by a single base.</p></div>
+</div>
+
+<h2>Not verified</h2>
+<ul>
+<li>The reading of “sequential peeling” above is mine.</li>
+<li>What the <code>CAS</code> and <code>ASR</code> names (115 and 80 rows) are has not been looked up.</li>
+<li>Full-length is defined by coverage of the RepeatMasker consensus, so it inherits RepeatMasker's own names and consensus lengths.</li>
+<li>Several papers were confirmed by title page only (Bennett 2008, Jurka and Smith 1988, Roy 2000, Kojima 2010, Batzer 1996, Batzer and Deininger 2002); Cordaux 2004 was not opened.</li>
+<li>The online supplement of Price 2004 could not be retrieved; the 213 consensuses exist locally from another copy.</li>
+<li>The COSEG bank uses consensuses I built from member copies, not COSEG's own (which it did not write), so it may differ slightly from what COSEG would give.</li>
+<li>The AluYb8/AluYb9 split is checked; whether the same one-base closeness explains the low firm rates of AluSg, AluSc8 and AluSg4 has not been checked.</li>
+</ul>
+
+<h2>Where everything is</h2>
+<div class="panel scroll"><table class="paths"><tbody>
+<tr><td>Repository (GitHub)</td><td>https://github.com/Toki-bio/ALU_audit</td></tr>
+<tr><td>Local clone</td><td>C:\work\ALU_audit\</td></tr>
+<tr><td>Sources table and claim check</td><td>C:\work\ALU_audit\literature\SOURCES.md</td></tr>
+<tr><td>Downloaded papers (not in the repository)</td><td>C:\work\ALU_audit\literature\</td></tr>
+<tr><td>Step 1 summary tables</td><td>C:\work\ALU_audit\results\01_copyset\</td></tr>
+<tr><td>Scripts</td><td>C:\work\ALU_audit\scripts\</td></tr>
+<tr><td>Price 2004, 213 consensuses</td><td>C:\work\SubFam\SUBFAMILIES.FINAL.txt</td></tr>
+<tr><td>Monsoon project folder</td><td>monsoon:/scratch/sk4386/alu_audit/ (data, copyset, round1, tools, scripts, logs)</td></tr>
+<tr><td>Monsoon Alu rows</td><td>monsoon:/scratch/sk4386/alu_audit/copyset/alu_rows.tsv</td></tr>
+<tr><td>This page in the repository</td><td>C:\work\ALU_audit\docs\alu_audit_process.html</td></tr>
+<tr><td>Step 2 summary tables (AluY control, Dfam AluS)</td><td>C:\work\ALU_audit\results\04_round3\</td></tr>
+<tr><td>Round 2 (assignment of all copies, AluS sample, COSEG)</td><td>monsoon:/scratch/sk4386/alu_audit/round2/</td></tr>
+<tr><td>Round 3 (step 2 bank runs)</td><td>monsoon:/scratch/sk4386/alu_audit/round3/ (dfamY, dfam, coseg)</td></tr>
+<tr><td>Inputs</td><td>monsoon:/scratch/sk4386/alu_audit/data/hs1.fa.gz, hs1.fa.out.gz, hs1.fa.align.gz</td></tr>
+</tbody></table></div>
+</main>

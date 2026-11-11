@@ -426,8 +426,9 @@ subfamilies do; here it separates nothing. Not used below.
 **AluY control (124,824 firm AluY copies, 20 Dfam AluY consensuses): 6,398 firm (5.1 %).**
 - AluYa5: 2,946 of 3,219 copies firm (91.5 %), all 2,946 back to AluYa5. Pass.
 - AluYb8: 5 of 2,276 firm (0.2 %). But AluYb8 is the plurality call for 2,057 of them (90 %); the votes are 6-9 of 10,
-  never 10. Fails only the 10/10 unanimity, not the best hit. Likely cause (not yet checked vote by vote): the bank also
-  holds AluYb9, which differs from AluYb8 by very few positions, so cycles split between the two.
+  never 10. Fails only the 10/10 unanimity, not the best hit. Checked vote by vote: 2,055 of these 2,057 copies give
+  their other votes to AluYb9 (5,237 of 20,570 votes; AluYb8 15,286). The two bank consensuses (318 bp each) differ at
+  one aligned position, column 174 (AluYb8 C, AluYb9 G). One diagnostic base is within step 2's noise, so the two split.
 - AluY (94,435 copies): 1.1 % firm. The parental consensus does not collect firm copies.
 - Firm rate by RepeatMasker divergence: 52.7 % at 0-2 %, 20.0 % at 2-4 %, 3.0 % at 4-6 %, ~1 % at 6-12 %.
 
@@ -436,7 +437,8 @@ that has one (Yb8/Yb9). A low firm rate therefore cannot by itself mean "the sub
 how close the bank consensuses are to each other.
 
 **Dfam AluS bank (527,234 firm AluS copies, 17 Dfam AluS consensuses): 118,169 firm (22.4 %).**
-(The toy gave 1.3 %; the toy was the first 2,000 copies of one region and was not representative.)
+(The toy gave 1.3 %; the toy was the first 2,000 copies in the file, all from chr1:17,012-8,916,930, and was not
+representative. The section 15 reading "about 98 % not firm" rested on that toy and is replaced by this.)
 Firm copies back to their own RepeatMasker name: AluSp 99.6 %, AluSz 98.4 %, AluSx4 98.8 %, AluSc 97.0 %,
 AluSc5 96.2 %, AluSq2 92.5 %, AluSz6 91.2 %, AluSg7 87.8 %. Low: AluSx 0.4 % (41,422 firm, almost all to a child),
 AluSg 22.3 %, AluSc8 24.6 %, AluSg4 46.5 %. Firm rate by divergence falls with age: 69 % at 4-6 %, 49.6 % at 6-8 %,
