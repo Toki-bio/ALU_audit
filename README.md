@@ -220,14 +220,18 @@ are mostly partial.
 **Observation to explain (not a conclusion).** In full-length rows, several young-named subfamilies have two
 divergence modes (`summary_div_hist_cov90.tsv`, RepeatMasker % divergence, 1 % bins):
 
-| name | rows at 0-2 % | rows at 6 % or more | note |
+| name | full-length rows | at 0-2 % | at 10 % or more |
 |---|---|---|---|
-| AluYa5 | 3,018 | 430 | second mode at 13-16 % |
-| AluYg6 | 356 | 767 | second mode at 12-15 % |
-| AluYa8 | 43 | 1,081 | modes at 8-10 % and 14-16 % |
-| AluYk12 | 62 | 454 | mode at 13-16 % |
-| AluYh9 | 0 | 356 | single mode at 13-16 %, no row under 6 % |
+| AluYa5 | 3,525 | 3,018 | 309 (9 %) |
+| AluYb8 | 3,013 | 2,027 | 787 (26 %) |
+| AluYg6 | 1,136 | 356 | 653 (57 %) |
+| AluYa8 | 1,134 | 43 | 782 (69 %) |
+| AluYk12 | 519 | 62 | 423 (82 %) |
+| AluYh9 | 356 | 0 | 328 (92 %) |
+| AluY | 101,092 | 1,922 | 11,031 (11 %) |
 
+Counts are computed from `summary_div_hist_cov90.tsv`. AluYa5 has a second mode at 13-16 %, AluYg6 at 12-15 %,
+AluYa8 modes at 8-10 % and 14-16 %, AluYk12 at 13-16 %; AluYh9 has a single mode at 13-16 % and no row under 6 %.
 For comparison AluY has one mode at 6-7 %. A copy at 13-16 % from the consensus of a subfamily that expanded in the
 human lineage is older than the subfamily can be, so these rows are candidates for a wrong name. Possible causes to
 separate: an old AluS or AluJ copy that matches the young consensus best by chance or by parallel CpG changes; gene
