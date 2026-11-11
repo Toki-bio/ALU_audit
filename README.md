@@ -187,3 +187,48 @@ Read-only look on 2026-11-11:
 - COSEG 0.2.4 was built only in a cloud container for `benchmark/alu_konkel`; there is no server install.
 - Not recorded anywhere found: the SINEderella command line of the Tal hg38 run, and the script behind its
   RepeatMasker concordance numbers.
+
+## 10. Step 1: the Alu copy set (2026-11-11, measured)
+
+Work directory `monsoon:/scratch/sk4386/alu_audit/`. Scripts in `scripts/`, summary tables in `results/01_copyset/`.
+
+**Inputs** (`data/`, job 34188685): `hs1.fa.gz` from UCSC (md5 a493d540..., matches UCSC `md5sum.txt`); `hs1.fa.out.gz`
+(md5 d797affd...) and `hs1.fa.align.gz` (md5 f22c100b...) from the RepeatMasker 4.2.2 / Dfam 3.9 run. No md5 is published
+for the last two; they have the exact byte size the server reports and pass `gzip -t`.
+
+**Table** (`scripts/02_alu_table.sh` -> `copyset/alu_rows.tsv`, one line per RepeatMasker row):
+chr, start (0-based), end, name, RepeatMasker ID, strand, SW score, % divergence, % deletion, % insertion, consensus
+start, consensus end, consensus bases left, class, overlap star.
+
+- 1,204,897 `SINE/Alu` rows, 312,531,330 bp, 49 names; 1,163,404 elements by RepeatMasker ID (1,123,252 in one row,
+  38,876 in two, 1,276 in three or more); 497 elements carry more than one name across their rows; 1,991 rows are
+  starred (overlapped by a better match). The ID is unique genome-wide.
+- Boundary set, kept apart in `copyset/boundary_rows.tsv` and not decided on: 7SLRNA 2,017 rows (`srpRNA`), BC200 690
+  (`scRNA`); the monomers FLAM_C 33,685, FRAM 14,926, FLAM_A 7,462 and FAM 1,908 are inside `SINE/Alu`, as are a
+  generic `Alu` (7,113 rows, mean 56 bp), `CAS` (115) and `ASR` (80). What `CAS` and `ASR` are has not been looked up.
+
+**Controls with a known answer (both pass).**
+
+- Alu bp without chrY: 312,531,330 - 4,246,017 = 308,285,313. Hoyt et al. 2022 Table 2 (CHM13 v1.1, no chrY):
+  308,309.7 kbp. Difference 0.008 %, with a different RepeatMasker and Dfam version.
+- All AluY-named rows: 166,151. Halabian et al. 2024 on the 2022 annotation: 166,483. Difference 0.2 %.
+
+**Full-length rows** (at least 0.9 of the consensus covered; `summary_fulllength_by_name.tsv`): AluSx 253,607 of
+315,295; AluJb 157,619 of 271,945; AluY 101,092 of 122,722; AluJo 4,586 of 15,736 (0.29) and AluJr 5,091 of 14,685 (0.35)
+are mostly partial.
+
+**Observation to explain (not a conclusion).** In full-length rows, several young-named subfamilies have two
+divergence modes (`summary_div_hist_cov90.tsv`, RepeatMasker % divergence, 1 % bins):
+
+| name | rows at 0-2 % | rows at 6 % or more | note |
+|---|---|---|---|
+| AluYa5 | 3,018 | 430 | second mode at 13-16 % |
+| AluYg6 | 356 | 767 | second mode at 12-15 % |
+| AluYa8 | 43 | 1,081 | modes at 8-10 % and 14-16 % |
+| AluYk12 | 62 | 454 | mode at 13-16 % |
+| AluYh9 | 0 | 356 | single mode at 13-16 %, no row under 6 % |
+
+For comparison AluY has one mode at 6-7 %. A copy at 13-16 % from the consensus of a subfamily that expanded in the
+human lineage is older than the subfamily can be, so these rows are candidates for a wrong name. Possible causes to
+separate: an old AluS or AluJ copy that matches the young consensus best by chance or by parallel CpG changes; gene
+conversion; a subfamily that is in fact old (AluYh9). Nothing here has been tested yet.
