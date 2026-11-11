@@ -448,3 +448,32 @@ Reading: young, derived subfamilies with their own diagnostics (Ya5, Sp, Sc, Sz,
 with RepeatMasker; broad parental names (AluY, AluSx) do not collect firm copies; firm rate falls with copy age, as
 expected if decay erases diagnostic positions. Divergence and subfamily are confounded (young bins are mostly Ya5/Sp),
 so this is consistent with decay, not proof of it.
+
+## 17. Step 2 full run with the COSEG bank, and the direct COSEG vs RepeatMasker comparison
+
+Job 34200646, 3 h 03 min. Tables in `results/04_round3/coseg/`, plus `results/04_round3/both_xtab.sorted.tsv`
+(COSEG call x Dfam call for copies firm under both) and `coseg_to_dfam_map.tsv` (each COSEG subfamily's main Dfam name).
+
+**COSEG bank (26 subfamilies) on the 527,234 AluS copies: 66,181 firm (12.6 %)**, against 118,169 (22.4 %) with the
+17 Dfam AluS families. Self-check: of the 3,652 firm copies from the COSEG input sample, 2,444 (0.669) go back to
+their own COSEG subfamily. coseg_sf0 (5,661 sample copies, the largest) is 4.8 % firm and 0.4 % back to itself: like
+AluSx and AluY, it behaves as a parental consensus. coseg_sf18 has no firm copy.
+
+**Firm rate by divergence runs the other way from the Dfam bank:** 5.7 % at 4-6 %, 8.3 % at 8-10 %, 14.1 % at 12-14 %,
+27.4 % at 16-18 %. (Dfam bank: 69 %, 29.9 %, 16.5 %, 23.6 %.)
+
+**Same copies, both banks:** firm under both 11,976; Dfam only 106,193; COSEG only 54,205; neither 354,860.
+The two banks make most of their firm calls on different copies. Where both are firm, most COSEG subfamilies map to
+one Dfam name: sf13 -> AluSc5 (2,059 of 2,059), sf23/sf15/sf24/sf2 -> AluSp (99.6-100 %), sf1 and sf17 -> AluSc
+(100 %), sf4 -> AluSz6 (100 %), sf11 -> AluSc (94.9 %), sf16 -> AluSz6 (89.7 %), sf9 -> AluSz (76.4 %). Others are
+mixed (sf19 50 % AluSz6, sf5 49 % AluSz, sf7 31 % AluSz).
+
+**AluSp is the clearest case.** COSEG has four subfamilies whose firm copies are AluSp (sf2, sf15, sf23, sf24); together
+they hold 1,475 firm copies, against 43,598 firm to AluSp under the Dfam bank. That fits the AluYb8/AluYb9 lesson
+(section 16): when a young lineage is split into close consensuses, the votes split and its copies stop being firm,
+which also explains why young copies are rarely firm with the COSEG bank. Not checked: how many positions separate
+sf2, sf15, sf23 and sf24 from each other.
+
+Reading: neither partition is confirmed by step 2 as a whole. Both banks recover a set of subfamilies firmly
+(Dfam: AluSp, AluSc, AluSc5, AluSz, AluSx4; COSEG: the subfamilies mapping to AluSc5, AluSc, AluSz6, AluSz), and both
+contain parental consensuses (AluSx, coseg_sf0) and near-twins whose copies are not firm.

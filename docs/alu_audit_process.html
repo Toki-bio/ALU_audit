@@ -57,7 +57,7 @@ ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
 <main>
 <h1>Alu audit: what was done and what was found</h1>
 <p class="sub">Tool-assisted audit of Alu subfamilies and copies in the human T2T-CHM13 assembly. Session log: background, copy set, sequential peeling, COSEG, and SINEderella step 2 with an AluY control.</p>
-<p class="meta">updated 2026-11-11 · repository <a href="https://github.com/Toki-bio/ALU_audit">github.com/Toki-bio/ALU_audit</a> · this page is stored there as <code>docs/alu_audit_process.html</code> · full detail in README sections 9–16 · compute on Monsoon</p>
+<p class="meta">updated 2026-11-11 · repository <a href="https://github.com/Toki-bio/ALU_audit">github.com/Toki-bio/ALU_audit</a> · this page is stored there as <code>docs/alu_audit_process.html</code> · full detail in README sections 9–17 · compute on Monsoon</p>
 
 <h2>Where the project stood</h2>
 <p>The repository held starting notes only: nothing had been run. The notes list what exists in other repositories (all on hg38), what the literature leaves open, and a proposed order of work. This session picked it up with three instructions: learn the existing tools, use Monsoon for computation, and fetch the background literature, listing what could not be fetched.</p>
@@ -262,8 +262,38 @@ ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
 <h3>A measure that does not work for Alu</h3>
 <p>SINEderella flags a firm copy as a <b>leak</b> when the runner-up scores at least 0.90 of the winner. Every firm copy in both runs has a ratio of 0.92 or more, most of them 0.96–0.98. So all firm copies are leaks (100 %). Alu subfamilies differ at fewer positions than the SINE subfamilies that the 0.90 cut was set for, and here the cut separates nothing. It is not used.</p></div>
 
-<div class="step run"><div class="tag">17 · Running: COSEG bank on all AluS copies</div>
-<p>Job 34200646 is still running (2 h 18 min at the last check). When it ends, the same tables will be added here for the 26 COSEG subfamilies. The self-check will be whether sample copies go back to their own COSEG subfamily, and the firm rate will be compared with the RepeatMasker bank's 22.4 %.</p></div>
+<div class="step"><div class="tag">17 · Full run, COSEG bank, and the direct comparison</div>
+<p>Job 34200646 ran for 3 h 03 min. With the 26 COSEG subfamilies as the bank, <b>66,181 of 527,234 AluS copies are firm (12.6 %)</b>, against 22.4 % with the RepeatMasker bank.</p>
+<p><b>Self-check:</b> of the 3,652 firm copies from COSEG's own input sample, 2,444 (0.669) go back to their own COSEG subfamily. The largest one, coseg_sf0 (5,661 sample copies), is 4.8 % firm and only 0.4 % back to itself, so it behaves like a parental consensus, as AluSx and AluY do. coseg_sf18 has no firm copy.</p>
+<h3>Firm rate by copy age, the two banks side by side</h3>
+<div class="panel scroll"><table>
+<thead><tr><th>divergence</th><th>AluS copies</th><th>RepeatMasker bank</th><th>COSEG bank</th></tr></thead>
+<tbody>
+<tr><td>4–6 %</td><td>1,881</td><td>69.0 %<span class="bar" style="width:69px"></span></td><td>5.7 %<span class="bar" style="width:6px"></span></td></tr>
+<tr><td>6–8 %</td><td>24,158</td><td>49.6 %<span class="bar" style="width:50px"></span></td><td>7.4 %<span class="bar" style="width:7px"></span></td></tr>
+<tr><td>8–10 %</td><td>109,846</td><td>29.9 %<span class="bar" style="width:30px"></span></td><td>8.3 %<span class="bar" style="width:8px"></span></td></tr>
+<tr><td>10–12 %</td><td>183,992</td><td>19.0 %<span class="bar" style="width:19px"></span></td><td>10.7 %<span class="bar" style="width:11px"></span></td></tr>
+<tr><td>12–14 %</td><td>131,884</td><td>16.5 %<span class="bar" style="width:17px"></span></td><td>14.1 %<span class="bar" style="width:14px"></span></td></tr>
+<tr><td>14–16 %</td><td>53,674</td><td>19.1 %<span class="bar" style="width:19px"></span></td><td>20.1 %<span class="bar" style="width:20px"></span></td></tr>
+<tr><td>16–18 %</td><td>16,635</td><td>23.6 %<span class="bar" style="width:24px"></span></td><td>27.4 %<span class="bar" style="width:27px"></span></td></tr>
+<tr><td>18–20 %</td><td>3,820</td><td>24.6 %<span class="bar" style="width:25px"></span></td><td>32.1 %<span class="bar" style="width:32px"></span></td></tr>
+</tbody></table></div>
+<p>The two banks run in opposite directions. With the RepeatMasker bank, young copies are the most often firm; with the COSEG bank, the old ones are.</p>
+<h3>Same copies, both banks</h3>
+<div class="panel scroll"><table>
+<tbody>
+<tr><td>Firm under both</td><td>11,976</td></tr>
+<tr><td>Firm under RepeatMasker only</td><td>106,193</td></tr>
+<tr><td>Firm under COSEG only</td><td>54,205</td></tr>
+<tr><td>Firm under neither</td><td>354,860</td></tr>
+</tbody></table></div>
+<p>The two banks make most of their firm calls on different copies. Where both are firm, most COSEG subfamilies map onto one RepeatMasker name:</p>
+<ul>
+<li><b>Clean, 89.7–100 %:</b> sf13 → AluSc5 (2,059 of 2,059); sf23, sf15, sf24 and sf2 → AluSp; sf1 and sf17 → AluSc; sf4 → AluSz6; sf11 → AluSc (94.9 %); sf16 → AluSz6 (89.7 %).</li>
+<li><b>Partly clean:</b> sf9 → AluSz (76.4 %).</li>
+<li><b>Mixed:</b> sf19 (50 % AluSz6), sf5 (49 % AluSz), sf7 (31 % AluSz).</li>
+</ul>
+<p><b>AluSp is the clearest case.</b> COSEG has four subfamilies whose firm copies are AluSp (sf2, sf15, sf23, sf24). Together they hold 1,475 firm copies, against 43,598 firm to AluSp under the RepeatMasker bank. This fits the AluYb8/AluYb9 lesson: when a young lineage is split into close consensuses, its votes split and its copies stop being firm. That would also explain why young copies are rarely firm with the COSEG bank. Not checked yet: how many positions separate sf2, sf15, sf23 and sf24 from each other.</p></div>
 
 <div class="step"><div class="tag">So far</div>
 <p>What the data show:</p>
@@ -271,9 +301,10 @@ ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
 <li><b>Young subfamilies with their own diagnostic positions are recovered firmly</b> and agree with RepeatMasker: AluYa5, AluSp, AluSc, AluSz, AluSx4.</li>
 <li><b>Broad parental names collect almost no firm copies of their own:</b> AluY, AluSx.</li>
 <li><b>Near-twin consensuses split the votes,</b> even for a lineage known to be real (AluYb8 and AluYb9, one base apart).</li>
-<li><b>Older copies are less often firm.</b></li>
+<li><b>Older copies are less often firm with the RepeatMasker bank, and more often firm with the COSEG bank.</b></li>
+<li><b>COSEG and RepeatMasker agree where both are firm,</b> but they are firm on mostly different copies: 11,976 shared, against 106,193 and 54,205.</li>
 </ul>
-<p>So the data do not yet show that the AluS system fails as a whole. They point to two specific weak spots: parental consensuses, and pairs of consensuses separated by a single base.</p></div>
+<p>Neither partition is confirmed by step 2 as a whole, and neither is rejected as a whole. Each recovers a set of subfamilies firmly. Each also contains the same two weak spots: parental consensuses (AluSx, AluY, coseg_sf0), and close consensuses that split their votes (AluYb8 and AluYb9; COSEG's four AluSp subfamilies).</p></div>
 </div>
 
 <h2>Not verified</h2>
@@ -299,7 +330,7 @@ ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
 <tr><td>Monsoon project folder</td><td>monsoon:/scratch/sk4386/alu_audit/ (data, copyset, round1, tools, scripts, logs)</td></tr>
 <tr><td>Monsoon Alu rows</td><td>monsoon:/scratch/sk4386/alu_audit/copyset/alu_rows.tsv</td></tr>
 <tr><td>This page in the repository</td><td>C:\work\ALU_audit\docs\alu_audit_process.html</td></tr>
-<tr><td>Step 2 summary tables (AluY control, Dfam AluS)</td><td>C:\work\ALU_audit\results\04_round3\</td></tr>
+<tr><td>Step 2 summary tables (AluY control, RepeatMasker AluS, COSEG AluS, both-bank comparison)</td><td>C:\work\ALU_audit\results\04_round3\</td></tr>
 <tr><td>Round 2 (assignment of all copies, AluS sample, COSEG)</td><td>monsoon:/scratch/sk4386/alu_audit/round2/</td></tr>
 <tr><td>Round 3 (step 2 bank runs)</td><td>monsoon:/scratch/sk4386/alu_audit/round3/ (dfamY, dfam, coseg)</td></tr>
 <tr><td>Inputs</td><td>monsoon:/scratch/sk4386/alu_audit/data/hs1.fa.gz, hs1.fa.out.gz, hs1.fa.align.gz</td></tr>
