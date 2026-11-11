@@ -405,10 +405,11 @@ Script `scripts/13_bank_vs_S.sbatch`; Monsoon jobs 34200646 (COSEG bank) and 342
 Even the firm copies have a runner-up within 3-5 % of the best score (runner_ratio 0.95-0.97, so they are LEAK by
 step 3's 0.90 rule).
 
-**Reading.** AluS subfamilies differ at a few positions out of about 300, so a copy's score against two AluS consensuses
-differs by a few percent. That is the size of the run-to-run noise of `ssearch36 -z 11` (1-3 %, MANUAL), so the
-10-cycle vote splits and almost no copy is unanimous. This holds for RepeatMasker's own subfamilies as much as for
-COSEG's: **with step 2 as it is, SINEderella cannot assign copies among AluS subfamilies at all**, whoever defines them.
-So step 2 cannot be the judge between COSEG and RepeatMasker here. What would have to change is the assignment
-criterion for closely related subfamilies (score on the diagnostic positions rather than whole-copy bitscore, or a
-deterministic score without `-z 11` shuffling); that is a decision for the owner, not made here.
+**Reading (corrected 2026-11-11 after the owner's objection).** My first reading said step 2 "cannot assign" AluS
+copies and proposed scoring on diagnostic positions instead. That was wrong. Step 2 is designed for exactly this: two
+near-identical consensuses differ only at their diagnostic positions, so the bitscore difference between them is the
+contribution of those positions, and the 10 shuffled cycles with 10/10 unanimity remove copies whose win is within the
+noise. Read that way, the toy says: for about 98 % of AluS copies, neither the RepeatMasker AluS subfamilies nor the
+COSEG ones are carried by a diagnostic signal that beats the noise; only 1-2 % of copies are firm. Those copies go to
+soft assignment (step 3.5), not lost. For the comparison: COSEG's bank gives 2.2 % firm against 1.3 % for the
+RepeatMasker bank on the same copies. Per-subfamily numbers wait for the full runs.
