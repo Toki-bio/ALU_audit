@@ -293,7 +293,19 @@ ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
 <li><b>Partly clean:</b> sf9 → AluSz (76.4 %).</li>
 <li><b>Mixed:</b> sf19 (50 % AluSz6), sf5 (49 % AluSz), sf7 (31 % AluSz).</li>
 </ul>
-<p><b>AluSp is the clearest case.</b> COSEG has four subfamilies whose firm copies are AluSp (sf2, sf15, sf23, sf24). Together they hold 1,475 firm copies, against 43,598 firm to AluSp under the RepeatMasker bank. This fits the AluYb8/AluYb9 lesson: when a young lineage is split into close consensuses, its votes split and its copies stop being firm. That would also explain why young copies are rarely firm with the COSEG bank. Not checked yet: how many positions separate sf2, sf15, sf23 and sf24 from each other.</p></div>
+<p><b>AluSp is the clearest case.</b> COSEG has four subfamilies whose firm copies are AluSp (sf2, sf15, sf23, sf24). Together they hold 1,475 firm copies, against 43,598 firm to AluSp under the RepeatMasker bank. This fits the AluYb8/AluYb9 lesson: when a young lineage is split into close consensuses, its votes split and its copies stop being firm. That would also explain why young copies are rarely firm with the COSEG bank.</p>
+<h3>How far apart are the four AluSp subfamilies?</h3>
+<p>The five bank consensuses (COSEG sf2, sf15, sf23, sf24 and Dfam AluSp) were aligned with MAFFT, 313 columns. Substitutions are counted from AluSp. Gaps are left out: they come only from poly-A tail length and from the N at AluSp column 133.</p>
+<div class="panel scroll"><table class="claims">
+<thead><tr><th>consensus</th><th class="l">differences from AluSp</th></tr></thead>
+<tbody>
+<tr><td>coseg_sf2</td><td class="l"><b>0.</b> It is AluSp.</td></tr>
+<tr><td>coseg_sf15</td><td class="l"><b>1:</b> column 264, C→T, not at a CpG.</td></tr>
+<tr><td>coseg_sf24</td><td class="l"><b>2:</b> column 73, G→A, and column 224, G→C. Both are at CpG sites of AluSp.</td></tr>
+<tr><td>coseg_sf23</td><td class="l"><b>8.</b> Five are CpG transitions (columns 140, 176 and 232 G→A; columns 270 and 278 C→T). Three are not (27 A→C, 135 T→C, 288 A→G).</td></tr>
+</tbody></table></div>
+<p>Pairwise, sf2 and sf15 are 1 base apart, sf2 and sf24 are 2, and sf15 and sf24 are 3. <b>So sf2, sf15 and sf24 are near-twins of AluSp, one to three bases apart</b>: the same situation as AluYb8 and AluYb9, where the copies split their votes and few become firm.</p>
+<p>sf23 is further away (8–10 bases from the other three), but most of its differences are CpG transitions. It could be a real AluSp sub-lineage, or AluSp copies that share CpG decay; this check cannot tell the two apart.</p></div>
 
 <div class="step"><div class="tag">So far</div>
 <p>What the data show:</p>
@@ -304,7 +316,7 @@ ul{margin:8px 0;padding-left:20px;max-width:70ch}li{margin:4px 0}
 <li><b>Older copies are less often firm with the RepeatMasker bank, and more often firm with the COSEG bank.</b></li>
 <li><b>COSEG and RepeatMasker agree where both are firm,</b> but they are firm on mostly different copies: 11,976 shared, against 106,193 and 54,205.</li>
 </ul>
-<p>Neither partition is confirmed by step 2 as a whole, and neither is rejected as a whole. Each recovers a set of subfamilies firmly. Each also contains the same two weak spots: parental consensuses (AluSx, AluY, coseg_sf0), and close consensuses that split their votes (AluYb8 and AluYb9; COSEG's four AluSp subfamilies).</p></div>
+<p>Neither partition is confirmed by step 2 as a whole, and neither is rejected as a whole. Each recovers a set of subfamilies firmly. Each also contains the same two weak spots: parental consensuses (AluSx, AluY, coseg_sf0), and close consensuses that split their votes (AluYb8 and AluYb9, one base apart; COSEG sf2, sf15 and sf24, which are AluSp and AluSp plus one or two bases).</p></div>
 </div>
 
 <h2>Not verified</h2>

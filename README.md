@@ -471,8 +471,20 @@ mixed (sf19 50 % AluSz6, sf5 49 % AluSz, sf7 31 % AluSz).
 **AluSp is the clearest case.** COSEG has four subfamilies whose firm copies are AluSp (sf2, sf15, sf23, sf24); together
 they hold 1,475 firm copies, against 43,598 firm to AluSp under the Dfam bank. That fits the AluYb8/AluYb9 lesson
 (section 16): when a young lineage is split into close consensuses, the votes split and its copies stop being firm,
-which also explains why young copies are rarely firm with the COSEG bank. Not checked: how many positions separate
-sf2, sf15, sf23 and sf24 from each other.
+which also explains why young copies are rarely firm with the COSEG bank.
+
+**Checked: the four COSEG AluSp consensuses against Dfam AluSp** (MAFFT on the five bank sequences, 313 columns;
+`monsoon:/scratch/sk4386/alu_audit/round3/sp4.aln.fa`). Substitutions from AluSp, gaps not counted (gaps are poly-A
+tail length and the N at AluSp column 133):
+- sf2: 0. It is AluSp.
+- sf15: 1 (column 264, C->T, not at a CpG).
+- sf24: 2 (column 73 G->A and column 224 G->C, both at CpG sites of AluSp).
+- sf23: 8; five are CpG transitions (columns 140, 176, 232 G->A; 270, 278 C->T), three are not (27 A->C, 135 T->C,
+  288 A->G).
+Pairwise: sf2-sf15 1, sf2-sf24 2, sf15-sf24 3, sf23 to the others 8-10. So sf2, sf15 and sf24 are near-twins of
+AluSp, one to three bases apart, the same situation as AluYb8/AluYb9: their copies split votes and few are firm.
+sf23 is further away, but most of its differences are CpG transitions, so it could be a real AluSp sub-lineage or
+AluSp copies sharing CpG decay; this check cannot separate the two.
 
 Reading: neither partition is confirmed by step 2 as a whole. Both banks recover a set of subfamilies firmly
 (Dfam: AluSp, AluSc, AluSc5, AluSz, AluSx4; COSEG: the subfamilies mapping to AluSc5, AluSc, AluSz6, AluSz), and both
