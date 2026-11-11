@@ -1,0 +1,126 @@
+# ALU_audit
+
+**Goal: a tool-assisted, complete audit of Alu subfamilies and Alu copies in the human T2T assembly (T2T-CHM13).**
+
+Status (2026-11-11): starting notes. Nothing in this repository has been run yet. This file collects what already exists
+in other Toki-bio repositories, what the literature leaves open, and a proposed order of work. Statements are marked as
+**measured** (a number from one of the repositories, with its path), **literature** (with a link) or **proposed** (a plan,
+not a result).
+
+## 1. What "audit" means here
+
+Two things, kept separate:
+
+1. **Subfamilies.** Which Alu subfamilies does the T2T-CHM13 copy set support when it is analyzed with one method and one
+   nomenclature, and how does that compare with the Dfam families, the 213 Price et al. 2004 consensuses and COSEG output?
+2. **Copies.** Every Alu copy in T2T-CHM13 assigned to a subfamily (firm, soft or unassigned, never silently dropped),
+   compared per copy with RepeatMasker, with every disagreement explained or left visibly open.
+
+## 2. Why an audit is needed (literature)
+
+- Alu subfamily discovery is largely COSEG-driven and was done lineage by lineage. COSEG numbers its subfamilies
+  arbitrarily (subfamily0 ... subfamilyN), without regard to the stepwise accumulation of diagnostic mutations, and each
+  primate genome got its own list (Storer et al. 2023, Genes 14:249, <https://doi.org/10.3390/genes14020249>).
+- More than 10 % of replicate copies change RepeatMasker subfamily between runs (Carey 2020, as cited in
+  SINEderella `docs/COSEG_COMPARISON_DESIGN.md`).
+- Many "subfamilies" contain several source elements, so consensus-based ages need reassessment
+  (Wacholder et al. 2014, <https://doi.org/10.1371/journal.pgen.1004482>).
+- Active human subfamilies keep being added from population data, e.g. AluYb7a3, AluYb8b1 and AluYa4a1
+  (Konkel et al. 2015, GBE 7:2608, <https://academic.oup.com/gbe/article/7/9/2608/592318>).
+- Alu is about 10.09 % of T2T-CHM13 (308 Mbp) by the table in
+  <https://pmc.ncbi.nlm.nih.gov/articles/PMC13604091>.
+- **To find before claiming novelty:** a search result mentions an analysis of 118,489 full-length AluY copies annotated
+  in T2T-CHM13. The paper has not been identified yet.
+
+## 3. The CpG problem (the main scientific risk)
+
+- Many Alu diagnostic positions are CpG sites. CpG sites mutate fast and recurrently, so a set of copies sharing a CpG
+  change may be a real source-gene lineage, parallel CpG decay, or gene conversion between copies. Sequence similarity
+  alone cannot tell these apart.
+- **Measured** (SINE-discriminator `cpg_divergence_review/README.md`, section 6): on human top-100 plates the median
+  CpG : non-CpG substitution density ratio is **5.8** for young plates (7 of 14 plates), with 84-91 % of CpG-site changes
+  being transitions. This reproduces the published Alu value of about 6 (Xing et al. 2004,
+  <https://doi.org/10.1016/j.jmb.2004.09.058>). The same review lists the limits: the plate consensus is taken as the
+  ancestral state, and gene conversion and multiple hits are ignored, so it is a descriptive measure, not a rate.
+- **Literature, direct observation:** pedigree and trio sequencing now gives de novo mutations inside repeats, called on
+  T2T-CHM13v2.0, which is the same reference as this audit.
+  - 73 children from 42 families, 6,030 validated de novo SNVs; germline SNV rate is enriched in Alu (reported
+    p = 9.93e-6 in the preprint) and not in L1; about 91.7 % of the genome was callable. No per-subfamily or CpG-split
+    analysis was found in the preprint text
+    (<https://www.nature.com/articles/s41467-026-70342-1>, preprint <https://doi.org/10.1101/2025.07.18.665621>).
+  - Four-generation CEPH 1463 pedigree; de novo calls in its Supplementary Table 10
+    (<https://www.nature.com/articles/s41586-025-08922-2>); open-consent data under CC BY 4.0 at
+    <https://registry.opendata.aws/platinum-pedigree/>.
+- **Proposed use:** per-site de novo data as a null model for recurrent mutation at diagnostic positions. Expected Alu
+  de novo SNVs in the 73-child set: roughly 600-800 (own estimate from 6,030 x about 10 % plus enrichment; not a published
+  number). That supports J/S/Y by CpG/non-CpG, not per-position resolution. Not verified: whether the supplementary
+  tables give per-site coordinates, and whether the callable mask is published.
+
+## 4. What already exists (inventory of 2026-11-11)
+
+Public Toki-bio repositories were searched for Alu content at the commits given. Four private repositories
+(sineclose, MSA-viewer-archive, Tuatara-tRNA-containing-minisatellites, zany-system_restore) were not searched.
+All runs below are on **hg38**, none on T2T-CHM13.
+
+| repository (commit) | path | what it holds |
+|---|---|---|
+| SubFam (53a3a47) | `benchmark/alu_hg38/` | Run of 2026-10-11: 30,000 full-length Alu copies (250-330 bp) from chr1, one seed, SubFam 1.4.1 `-n 50`: 600 chunk consensuses. All 74 Price 2004 consensuses expected at >= 50 copies are contained at >= 0.95 identity (61 at >= 0.98); 25 of 26 such Dfam 4.0 families. **137 rows have no Dfam family within 0.95, 94 have no Price consensus within 0.95.** Chunk purity against RepeatMasker names 0.472. |
+| SubFam (53a3a47) | `benchmark/alu_konkel/` | 295-316 Konkel 2015 Y-lineage loci, SubFam against COSEG, single runs. COSEG split off Yb8 but never separated Ya5 from AluY (also at `-m 5`). SubFam `-n 20`: 15 rows contain the AluY, Ya5 and Yb8 consensuses exactly, but one lineage fills several chunks (completeness 0.36). COSEG scores higher on partition agreement (V 0.678 against 0.515). Labels are similarity-derived. |
+| SINEderella (7a3a794) | `docs/COSEG_COMPARISON_DESIGN.md` | Full SINEderella-against-COSEG test design of 2026-10-08: arms A-E, four data sets, metrics and decision rule fixed in advance. **Design only, nothing run.** |
+| SINEderella (7a3a794) | `docs/FAMILY_SUBFAMILY_ASSIGNMENT.md` | hs21 set: 10,521 chr21 Alu copies; 354 copies stay split (AluSx against AluY 222, AluJb against AluSx 132). |
+| Tal (9ab286e) | `hum/LOG.md`, `hum/alignments/` | Whole-hg38 SINEderella run with 65 Dfam SINE consensuses, about 354,000 assigned copies. Against the UCSC `rmsk` track: 92.9 % of assigned loci overlap a RepeatMasker SINE call; subfamily names agree at 82.8 % raw, 85.0 % after `_short_` normalization. Best: AluYa5 99.3 %, AluSc8 98.8 %. Disagreement concentrates at FLAM/FRAM against AluJo/Jr/Jb, AluJr4 (58 %) and BC200 (RepeatMasker files it under `scRNA`, not `SINE`). 168 per-subfamily alignments (top100, rand100, subfam). |
+| SINE-discriminator (f0db37f) | `FINDINGS.md`, `cpg_divergence_review/` | 64 human Alu sets in the benchmark: 55 accepted, 9 not assessable, 0 rejected. CpG review and the 5.8 ratio (section 3). |
+| MSA-viewer (eda0240) | `examples/demo/`, `tests/kmer/` | Alu demo alignments and a subfamily clustering test. |
+| knowlege (c6fba96) | `projects/` | Alu anchor-graph, SV-profiling and ddPCR idea notes. Not subfamily work. |
+
+Tools available for the audit: SINEderella (discovery, 10-cycle `ssearch36` voting assignment), SubFam (chunk
+consensuses without a reference), the peel, sear2k (genome search), SINE_orth_loc (orthology by flanks), SINE-discriminator,
+MSA-viewer (manual review).
+
+## 5. Gaps
+
+1. No run on T2T-CHM13. Everything so far is hg38.
+2. No whole-genome SubFam run: chr1 only, one seed (seeds 2 and 3 are pending per the SubFam README).
+3. The COSEG comparison is designed but not run. COSEG is not installed on KIT.
+4. No independent truth. Every label so far is similarity-derived (RepeatMasker name or best Price consensus), which
+   favours any method that also uses similarity to a consensus.
+5. The 137 chunk consensuses with no Dfam match are unexamined: new subfamilies or noise.
+6. The peel was calibrated on Timema; Alu is out-of-sample for it.
+7. Old-Alu boundaries (FLAM/FRAM against AluJ, BC200) have no agreed definition on either side.
+8. No mutation data used yet (section 3).
+
+## 6. Proposed order of work
+
+1. **Copy set.** Extract all Alu copies from T2T-CHM13v2.0 with coordinates and RepeatMasker calls; record the
+   RepeatMasker and Dfam versions. Keep truncated copies, flag them.
+2. **Reference sets.** Dfam human Alu families, Price 2004 (213), Konkel 2015 additions, COSEG output on the same copies.
+3. **Subfamily discovery.** SubFam on the whole genome with three seeds, then the peel, with no parameter changes after
+   seeing Alu results. Run the pre-registered COSEG comparison (`COSEG_COMPARISON_DESIGN.md`) on the same copies.
+4. **Copy assignment.** SINEderella assignment of every copy; firm, soft and unassigned all counted.
+5. **Adjudication of disagreements,** in the fixed order already written in SubFam `benchmark/alu_hg38/README.md`:
+   diagnostic positions read from the alignment; presence/absence polymorphism; chimpanzee orthology; divergence and CpG
+   consistency; blind manual review in MSA-viewer with method labels hidden.
+6. **CpG and recurrence.** For every candidate subfamily, the number of diagnostic positions that are CpG sites, the
+   CpG : non-CpG ratio of the plate, and, where de novo data allow, the observed per-site mutation rate (section 3).
+   A subfamily resting only on CpG transitions is reported as such.
+7. **Novel candidates.** The chunk consensuses with no Dfam or Price match (137 and 94 on chr1) go through steps 5 and 6
+   before any is named.
+8. **Output.** One table per subfamily (consensus, copy count, diagnostic positions, CpG share, evidence class) and one
+   row per copy (coordinates, call, confidence, RepeatMasker call, reason for any disagreement).
+
+## 7. Open decisions
+
+- Ground truth: RepeatMasker calls only, or a hand-called sample as well, and which sample.
+- Whether to build the simulation with a known subfamily tree before the real-data runs (the only data with true labels).
+- Nomenclature for anything new: the standard of lower-case letter plus number of diagnostic changes from the parent
+  (Storer et al. 2023), or another scheme.
+- How to state, in one paragraph, what the SINEderella route does that COSEG does not. The one small comparison so far is
+  mixed: COSEG better on partition agreement, SubFam better on consensus containment.
+- Scope of "Alu": include FLAM, FRAM, FAM and BC200, or treat them as a boundary set.
+
+## 8. Not verified
+
+- The 118,489 AluY T2T-CHM13 analysis (section 2) is unidentified.
+- Contents of the supplementary tables of the two de novo mutation papers were not opened.
+- Carey 2020 and Wacholder 2014 are cited here from notes in the other repositories, not from a fresh reading.
+- Numbers in section 4 are copied from the READMEs and logs at the stated commits; they were not recomputed.
