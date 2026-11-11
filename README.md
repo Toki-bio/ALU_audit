@@ -114,6 +114,16 @@ MSA-viewer (manual review).
 8. **Output.** One table per subfamily (consensus, copy count, diagnostic positions, CpG share, evidence class) and one
    row per copy (coordinates, call, confidence, RepeatMasker call, reason for any disagreement).
 
+### Owner's decisions, 2026-11-11
+
+- Reference call set: the RepeatMasker 4.2.2 / Dfam 3.9 run of hs1 dated 2025-10-31
+  (<https://www.repeatmasker.org/genomes/hs1/rmsk4.2.2_dfam3.9_rb20181026_rmb/>).
+- On step 3, in his words: "subfam on all alu is impratcical, sequential peeling is the key". So SubFam is not run on
+  the whole copy set. Reading of this by Claude, to be confirmed by the owner: SubFam on a sample, peel the clearly
+  isolated groups, build each group's consensus from its member copies, assign and remove those copies from the whole
+  set, then sample again from what remains, and repeat until only ungroupable copies are left.
+- Compute server: Monsoon, `/scratch/sk4386/alu_audit/`.
+
 ## 7. Open decisions
 
 - Ground truth: RepeatMasker calls only, or a hand-called sample as well, and which sample.
