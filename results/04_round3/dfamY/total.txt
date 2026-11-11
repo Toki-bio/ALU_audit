@@ -1,0 +1,1 @@
+TOTAL firm 6398 of 124824 (5.1%); leak 6398 (100.00% of firm)

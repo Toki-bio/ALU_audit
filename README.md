@@ -413,3 +413,36 @@ noise. Read that way, the toy says: for about 98 % of AluS copies, neither the R
 COSEG ones are carried by a diagnostic signal that beats the noise; only 1-2 % of copies are firm. Those copies go to
 soft assignment (step 3.5), not lost. For the comparison: COSEG's bank gives 2.2 % firm against 1.3 % for the
 RepeatMasker bank on the same copies. Per-subfamily numbers wait for the full runs.
+
+## 16. Step 2 full runs: AluY control and the Dfam AluS bank (COSEG bank still running)
+
+Scripts: `scripts/14_control_Y.sbatch` (job 34200661), `scripts/13_bank_vs_S.sbatch dfam` (job 34200647),
+summaries by `scripts/15_firm_summary.sh`; tables in `results/04_round3/{dfamY,dfam}/`.
+
+**Leak column is uninformative for Alu.** Every firm copy in both runs has runner_ratio >= 0.92 (most 0.96-0.98), so
+"leak" (>= 0.90) is 100 % everywhere. SINEderella's 0.90 cut was set for SINE subfamilies that differ more than Alu
+subfamilies do; here it separates nothing. Not used below.
+
+**AluY control (124,824 firm AluY copies, 20 Dfam AluY consensuses): 6,398 firm (5.1 %).**
+- AluYa5: 2,946 of 3,219 copies firm (91.5 %), all 2,946 back to AluYa5. Pass.
+- AluYb8: 5 of 2,276 firm (0.2 %). But AluYb8 is the plurality call for 2,057 of them (90 %); the votes are 6-9 of 10,
+  never 10. Fails only the 10/10 unanimity, not the best hit. Likely cause (not yet checked vote by vote): the bank also
+  holds AluYb9, which differs from AluYb8 by very few positions, so cycles split between the two.
+- AluY (94,435 copies): 1.1 % firm. The parental consensus does not collect firm copies.
+- Firm rate by RepeatMasker divergence: 52.7 % at 0-2 %, 20.0 % at 2-4 %, 3.0 % at 4-6 %, ~1 % at 6-12 %.
+
+So the control passes for a lineage with no near-twin in the bank (Ya5) and fails unanimity for a known real lineage
+that has one (Yb8/Yb9). A low firm rate therefore cannot by itself mean "the subfamily is not real"; it also measures
+how close the bank consensuses are to each other.
+
+**Dfam AluS bank (527,234 firm AluS copies, 17 Dfam AluS consensuses): 118,169 firm (22.4 %).**
+(The toy gave 1.3 %; the toy was the first 2,000 copies of one region and was not representative.)
+Firm copies back to their own RepeatMasker name: AluSp 99.6 %, AluSz 98.4 %, AluSx4 98.8 %, AluSc 97.0 %,
+AluSc5 96.2 %, AluSq2 92.5 %, AluSz6 91.2 %, AluSg7 87.8 %. Low: AluSx 0.4 % (41,422 firm, almost all to a child),
+AluSg 22.3 %, AluSc8 24.6 %, AluSg4 46.5 %. Firm rate by divergence falls with age: 69 % at 4-6 %, 49.6 % at 6-8 %,
+29.9 % at 8-10 %, 16-19 % at 10-16 %.
+
+Reading: young, derived subfamilies with their own diagnostics (Ya5, Sp, Sc, Sz, Sx4) are recovered firmly and agree
+with RepeatMasker; broad parental names (AluY, AluSx) do not collect firm copies; firm rate falls with copy age, as
+expected if decay erases diagnostic positions. Divergence and subfamily are confounded (young bins are mostly Ya5/Sp),
+so this is consistent with decay, not proof of it.
