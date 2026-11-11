@@ -1,0 +1,32 @@
+==========================================
+  SINE Assignment Summary
+==========================================
+Date: Wed Nov 11 07:23:46 MST 2026
+
+Input Files:
+  Consensus: /scratch/sk4386/alu_audit/round2/cons3.fa (3 subfamilies)
+  SINEs: /scratch/sk4386/alu_audit/round2/asg/copies.fa (824790 sequences)
+
+Assignment Criteria:
+  1) 10/10 unanimous votes (same consensus wins all cycles)
+  2) Bitscore >= 0.45 . TopN (N=min(10,count))
+
+Results:
+  Total sequences: 824790
+  Unanimous 10/10: 797985
+  Assigned (passed threshold): 797760 (96.7%)
+  Unassigned: 27030 (3.3%)
+
+Assignments per Subfamily:
+  cons_S               527234
+  cons_G1              145702
+  cons_G2              124824
+
+Output Files:
+  assigned.fasta         - All assigned sequences with headers: >seqID|subfamily|bitscore
+  unassigned.fasta       - Sequences that failed assignment
+  assignment_stats.tsv   - Statistics per subfamily
+  assignment_full.tsv    - Detailed assignment info for all sequences (incl. non-unanimous)
+  all_votes.tsv          - Per-sequence best vote (all sequences)
+  subfamilies/           - Directory with per-subfamily FASTA files
+

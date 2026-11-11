@@ -1,0 +1,127 @@
+all_votes.tsv
+assigned.fasta
+assignment_full.tsv
+assignment_stats.tsv
+seqkit.log
+ssearch.log
+subfamilies
+summary.txt
+unassigned.fasta
+unit_rule_swaps.tsv
+unit_rule_units.tsv
+vote_summary.tsv.gz
+Sequence	Subfamily	Bitscore	Votes	Status	Threshold	RunnerInfo
+chr1:3590397-3590689(+)	cons_G1	2329	10	assigned	982	runner=cons_S;runner_bs=2067;runner_ratio=0.8875
+chr1:2062651-2062950(+)	cons_G1	2293	10	assigned	982	runner=cons_S;runner_bs=1941;runner_ratio=0.8465
+1156 cons_S assigned
+364 cons_G2 assigned
+280 cons_G1 assigned
+98 cons_S no_unanimous
+57 cons_G2 no_unanimous
+43 cons_G1 no_unanimous
+2 cons_S rejected_low_bitscore
+TOY_OK
+==========================================
+  SINE Assignment Summary
+==========================================
+Date: Wed Nov 11 07:23:46 MST 2026
+
+Input Files:
+  Consensus: /scratch/sk4386/alu_audit/round2/cons3.fa (3 subfamilies)
+  SINEs: /scratch/sk4386/alu_audit/round2/asg/copies.fa (824790 sequences)
+
+Assignment Criteria:
+  1) 10/10 unanimous votes (same consensus wins all cycles)
+  2) Bitscore >= 0.45 . TopN (N=min(10,count))
+
+Results:
+  Total sequences: 824790
+  Unanimous 10/10: 797985
+  Assigned (passed threshold): 797760 (96.7%)
+  Unassigned: 27030 (3.3%)
+
+Assignments per Subfamily:
+  cons_S               527234
+  cons_G1              145702
+  cons_G2              124824
+
+Output Files:
+  assigned.fasta         - All assigned sequences with headers: >seqID|subfamily|bitscore
+  unassigned.fasta       - Sequences that failed assignment
+  assignment_stats.tsv   - Statistics per subfamily
+  assignment_full.tsv    - Detailed assignment info for all sequences (incl. non-unanimous)
+  all_votes.tsv          - Per-sequence best vote (all sequences)
+Subfamily	Assigned	TopN_Bitscore	Threshold
+cons_S	527234	2788	1255
+cons_G1	145702	2426	1092
+cons_G2	124824	3022	1360
+Sequence	Subfamily	Bitscore	Votes	Status	Threshold	RunnerInfo
+chr9:139700010-139700310(-)	cons_G1	2488	10	assigned	1092	runner=cons_S;runner_bs=2177;runner_ratio=0.8750
+rows: 824790 of 824790
+527234 cons_S assigned
+145702 cons_G1 assigned
+124824 cons_G2 assigned
+13711 cons_S no_unanimous
+7366 cons_G2 no_unanimous
+5728 cons_G1 no_unanimous
+150 cons_G1 rejected_low_bitscore
+74 cons_S rejected_low_bitscore
+1 cons_G2 rejected_low_bitscore
+CONTROL: 30000 sample copies; 29019 firm, 981 not firm; firm agreement 27123 of 29019 = 0.935
+   S -> cons_G1 167
+   S -> cons_G2 108
+   G2 -> cons_S 1040
+   G1 -> cons_G1 5257
+   G1 -> cons_G2 4
+   G2 -> cons_G2 4382
+   G1 -> cons_S 577
+   S -> cons_S 17484
+CONTROL_OK
+527234
+[INFO][0m 30000 patterns loaded from file
+30000
+  14144 AluSx
+   2789 AluSx1
+   2304 AluSz
+   1827 AluSp
+   1466 AluSg
+   1432 AluSq2
+   1205 AluSz6
+    877 AluSc
+    857 AluSx3
+    730 AluJb
+    512 AluSq
+    330 AluSx4
+    281 AluSg7
+    229 AluSg4
+    149 AluYe5
+    136 AluSc5
+    133 AluSq10
+    123 AluSc8
+     77 AluSq4
+     65 AluY
+     46 AluYh3
+     43 AluYb8
+     38 AluJr
+     28 AluYa8
+     23 AluYg6
+SubFam 1.5.1: 30000 sequences -> 600 chunks of ~50
+Ordering sequences along the 6-mer guide tree
+  done in 0h 1m 29s
+Aligning chunks and calling consensus sequences
+  done in 0h 0m 17s
+  chunk composition by 40 groups: round2/S/n50/alu.composition.tsv
+Aligning consensus sequences
+  done in 0h 0m 17s
+Job completed: round2/S/n50/alu.{cons.fasta,aln.fasta,msf,chunks.tsv,chunkstats.tsv}
+  done in 0h 2m 4s
+600
+chunks 600 mean purity 0.509; >=0.9: 1, 0.7-0.9: 35, <0.7: 564
+  trimmed to columns 1-318 of 346
+round 1: 600 seqs, 318 columns, 21 features, 0 blocks, 0 candidate groups
+  nothing separable, stopping
+
+peeled 0 groups over 0 rounds
+residue: 600 {'?': 600}
+2411
+ROUND2_DONE 2026-11-11T07:25:59-07:00

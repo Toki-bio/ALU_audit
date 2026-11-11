@@ -271,3 +271,44 @@ chunks and the alignment are built from S alone.
 **Process note.** The first two jobs of step 3 failed on `sort | head` under `pipefail` (broken pipe); the second
 resubmission still contained the bug because my patch did not apply and I did not check. Fixed in the script and
 verified on Monsoon before the third job.
+
+## 12. Round 2 of the sequential peeling (2026-11-11, measured)
+
+Scripts `scripts/06_consensus.py`, `scripts/06_cons_from_aln.py`, `scripts/08_round2_asSINEment.sbatch`
+(`07_round2.sbatch` is the failed version, kept as a record); results in `results/03_round2/`; full outputs in
+`monsoon:/scratch/sk4386/alu_audit/round2/`.
+
+**Consensuses from member copies** (500 random member copies per round-1 group, MAFFT, plurality, column dropped if more
+than half gaps): `cons_G1` 297 bp, closest Dfam family AluJo (97.0 %); `cons_G2` 301 bp, AluY (100 %); `cons_S` (from the
+residue) 302 bp, AluSx (99.7 %).
+
+**Assignment with SINEderella step 2, unchanged** (`step2_asSINEment.sh`: 10 ssearch36 cycles, `-z 11`, 10/10
+unanimity, 0.45 x TopN), all 824,790 full-length copies, 36 min on 32 cores:
+
+| consensus | firm | not unanimous | low score |
+|---|---|---|---|
+| cons_S | 527,234 | 13,711 | 74 |
+| cons_G1 (AluJ) | 145,702 | 5,728 | 150 |
+| cons_G2 (AluY) | 124,824 | 7,366 | 1 |
+
+Firm in total 797,760 (96.7 %).
+
+**Control (passed).** The 30,000 round-1 sample copies have a group through their chunk: 29,019 firm, of which 27,123
+agree (0.935). The main disagreement: 1,040 copies of round-1 G2 chunks go to `cons_S` (G2 was 26 % AluS by
+RepeatMasker name), 577 of G1 go to `cons_S`.
+
+**Failed attempts before this, both mine.** (1) One ssearch36 run on the whole library reported hits for only 62,957
+copies. (2) With the library in blocks, `-z 1` estimated statistics from the library itself, which is all Alu: every
+copy scored 15-19 bits and best and runner-up differed by less than 5 bits for 824,787 of 824,790 copies. The control
+(0.669) stopped the job. I should have used step 2 from the start instead of writing an assignment of my own.
+
+**Round 2 on AluS only.** 30,000 firm `cons_S` copies (seed 2): AluSx 14,144, AluSx1 2,789, AluSz 2,304, AluSp 1,827,
+AluSg 1,466, AluSq2 1,432, AluSz6 1,205, AluSc 877, ... (`S/s2.label_counts.txt`). SubFam `-n 50`: 600 chunk consensuses;
+chunk purity against RepeatMasker names mean 0.509 (1 chunk at 0.9 or more). Peel, defaults: 21 features, 0 blocks,
+**0 groups**.
+
+**Reading (not tested).** With AluJ and AluY removed, the peel still finds no structure inside AluS at default
+parameters. A likely reason, to be tested rather than assumed: each chunk consensus is a plurality vote over 50 copies
+that are mostly AluSx, so the diagnostic bases of the smaller S subfamilies (AluSp, AluSc, AluSq, AluSg) are outvoted
+inside the chunks and never reach the peel. That is a property of chunk size against subfamily share, not evidence
+that AluS has no subfamilies.
