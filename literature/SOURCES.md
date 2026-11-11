@@ -130,3 +130,25 @@ divergence from the RepeatMasker `.align` file. Alu result: AluYb8 and AluYb9 ga
 It points to a newer RepeatMasker run of hs1 (RepeatMasker 4.2.2, Dfam 3.9, dated 2025-10-31):
 <https://www.repeatmasker.org/genomes/hs1/rmsk4.2.2_dfam3.9_rb20181026_rmb/> (`hs1.fa.out.gz` 187 MB,
 `hs1.fa.align.gz` 2.8 GB with per-copy alignments to the consensus).
+
+## H. Second batch fetched by hand by the owner, 2026-11-11 (supersedes the PAYWALLED status above)
+
+| source | file in `literature/` | read |
+|---|---|---|
+| Xing et al. 2004, J Mol Biol 344:675, 10.1016/j.jmb.2004.09.058 | `1-s2.0-S0022283604012161-main.pdf` | abstract, introduction, first Results section (pp. 1-3) |
+| Tang & Liang 2020, Anal Biochem, 10.1016/j.ab.2020.113825 | `1-s2.0-S0003269720303572-main.pdf` | abstract, introduction, methods |
+| Kojima 2010/2011, Mol Biol Evol 28:13, 10.1093/molbev/msq218 | `msq218.pdf` | title page only |
+| Cordaux, Hedges, Batzer 2004, Trends Genet 20:464, 10.1016/j.tig.2004.07.012 | `1-s2.0-S0168952504002124-main.pdf` | not yet (first page starts with the previous article's references) |
+| Batzer et al. 1996, J Mol Evol 42:3 | `Batzer20et20al.20199620J20Molecular20Evolution20nomenclature.pdf` | title page only |
+| Batzer & Deininger 2002, Nat Rev Genet 3:370 | `alu.pdf` | title page only |
+
+**Xing 2004, CpG : non-CpG ratio about 6: CONFIRMED from the full text** (was abstract only). Results, "Substitution
+densities in Alu elements", pp. 2-3: "5296 Alu elements from 20 subfamilies"; "For most of the young AluY subfamilies,
+the ratio R varies from 4.80 to 9.27. The single exception is the AluYa5a2 subfamily (R = 43.77)" (33 elements,
+excluded); "an average R for AluY subfamilies of 6.72. For the intermediate AluS subfamilies, R ranged from 5.42 to 7.01
+with an average of 6.18 ... By contrast, the oldest AluJ subfamilies exhibited substantially lower R values, with an
+average of 3.67 (Table 1)."
+
+**Tang & Liang 2020 does not overlap with the audit.** Six primate genomes, human as GRCh38/hg38 (not T2T), RepeatMasker
+annotation from UCSC taken as given; it defines "master copies" by best-match relations between copies and reports
+"5401 Alu master copies with 99% being from the AluY subfamily".

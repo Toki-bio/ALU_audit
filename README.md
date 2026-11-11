@@ -135,8 +135,10 @@ MSA-viewer (manual review).
 
 **Literature.** `literature/SOURCES.md` lists every source with its access status and the check of each literature
 statement in sections 2 and 3 against the opened text (verbatim quotes, section F). Full texts are kept locally and are
-not in the repository. Read as abstract only: Xing et al. 2004. Still to be fetched by hand (paywalled or bot-blocked):
-see the lists in `literature/SOURCES.md`.
+not in the repository. All paywalled and bot-blocked items were fetched by hand on 2026-11-11 (sections G and H of
+`literature/SOURCES.md`); Xing et al. 2004 is now confirmed from the full text: R averages 6.72 for AluY, 6.18 for AluS
+and 3.67 for AluJ, on 5296 elements in 20 subfamilies. Still missing: the online supplement of Price et al. 2004 (the
+213 consensuses are available locally from another copy, see below).
 
 - Price et al. 2004 exclude frequent CpG mutations when defining subfamilies. This matters for section 3.
 - Doronina et al. 2021 (Genes): 98 clear Alu-to-Alu gene conversion cases among 68,097 Alu insertions.
@@ -147,7 +149,8 @@ see the lists in `literature/SOURCES.md`.
 - Not found in a PubMed and web search (not exhaustive): a 2020-2026 paper that analyses Alu subfamily structure or CpG
   decay genome-wide in T2T-CHM13. Nikitin 2026 (R Soc Open Sci, <https://doi.org/10.1098/rsos.260639>) was read on
   2026-11-11: it is an epigenomic study that takes the RepeatMasker subfamilies as given, so it does not overlap with this
-  audit. Tang & Liang 2020 (<https://doi.org/10.1016/j.ab.2020.113825>) is still unopened.
+  audit. Tang & Liang 2020 (<https://doi.org/10.1016/j.ab.2020.113825>) was read the same day: six primate
+  genomes on hg38 with RepeatMasker names as given, master copies by best match; no overlap either.
 - A third RepeatMasker call set for hs1 exists: RepeatMasker 4.2.2 with Dfam 3.9 (2025-10-31), with per-copy alignments,
   at <https://www.repeatmasker.org/genomes/hs1/rmsk4.2.2_dfam3.9_rb20181026_rmb/>.
 
