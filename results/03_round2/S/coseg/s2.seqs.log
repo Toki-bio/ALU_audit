@@ -1,0 +1,45 @@
+ADDING SUBFAMILIES
+Building subfamily 1 (parent 0, logpvalue -3.626201e+03): pos 87 g to t and pos 77 t to a
+Building subfamily 2 (parent 0, logpvalue -1.867759e+03): pos 102 t to a and pos 92 g to a
+Building subfamily 3 (parent 0, logpvalue -1.106150e+03): pos 93 c to g and pos 69 g to c
+Building subfamily 4 (parent 0, logpvalue -2.135599e+02): pos 189 g to c and pos 70 t to c
+Building subfamily 5 (parent 3, logpvalue -9.683091e+01): pos 203 a to g and pos 193 a to g
+Building subfamily 6 (parent 0, logpvalue -6.558867e+01): pos 200 t to g and pos 173 t to c
+Building subfamily 7 (parent 3, logpvalue -4.199172e+01): pos 61 c to t and pos 31 c to t
+Building subfamily 8 (parent 3, logpvalue -5.173298e+01): pos 190 g to a and pos 97 c to t
+Building subfamily 9 (parent 0, logpvalue -4.827791e+01): pos 275 c to t and pos 260 c to g
+Building subfamily 10 (parent 0, logpvalue -4.133925e+01): pos 186 g to a and pos 97 c to t
+Building subfamily 11 (parent 0, logpvalue -3.742000e+01): pos 263 c to a and pos 210 a to g
+Building subfamily 12 (parent 0, logpvalue -1.363756e+01): pos 113 c to t and pos 94 c to t
+VERIFYING SUBFAMILIES (PRUNE IF NECESSARY)
+Merging subfamilies 3 and 8 (dist=3) because pvalue=1.000000
+Merging subfamilies 0 and 3 (dist=3) because pvalue=1.000000
+Merging subfamilies 3 and 9 (dist=2) because pvalue=1.000000
+Merging subfamilies 3 and 8 (dist=2) because pvalue=1.000000
+Merging subfamilies 4 and 6 (dist=7) because pvalue=1.000000
+ADDING SUBFAMILIES
+Building subfamily 8 (parent 0, logpvalue -5.086820e+01): pos 200 t to g and pos 173 t to c
+VERIFYING SUBFAMILIES (PRUNE IF NECESSARY)
+Merging subfamilies 4 and 8 (dist=7) because pvalue=1.000000
+S_AFTER_PRUNE=8 AFTER BIG ITER (B=1)
+THERE ARE 8 SUBFAMILIES IN SCAFFOLD
+Building subfamily 8 (parent 0, logpvalue -34.639724, sigma 9.42): pos 162 a to g (17886 4090 0.200458)
+Building subfamily 9 (parent 0, logpvalue -52.656032, sigma 11.16): pos 64 c to t (13796 4179 0.261180)
+Building subfamily 10 (parent 0, logpvalue -300.996158, sigma 24.89): pos 152 c to g (9617 3683 0.270246)
+Building subfamily 11 (parent 1, logpvalue -412.801536, sigma 29.03): pos 66 g to a (1656 414 0.069078)
+Building subfamily 12 (parent 5, logpvalue -255.280970, sigma 22.99): pos 161 a to g (383 95 0.034295)
+Building subfamily 13 (parent 1, logpvalue -223.547157, sigma 21.56): pos 212 g to t (1242 116 0.016185)
+Building subfamily 14 (parent 5, logpvalue -122.880384, sigma 16.26): pos 269 g to c (288 51 0.025652)
+Building subfamily 15 (parent 2, logpvalue -82.101095, sigma 13.53): pos 263 c to a (2761 208 0.030829)
+Building subfamily 16 (parent 4, logpvalue -76.242223, sigma 13.09): pos 178 a to t (2861 128 0.014995)
+Building subfamily 17 (parent 1, logpvalue -66.968685, sigma 12.37): pos 79 c to g (1126 95 0.025866)
+Building subfamily 18 (parent 0, logpvalue -43.309962, sigma 10.30): pos 152 c to a (5934 273 0.025100)
+Building subfamily 19 (parent 5, logpvalue -36.806497, sigma 9.65): pos 219 t to c (237 61 0.083751)
+Building subfamily 20 (parent 1, logpvalue -32.387123, sigma 9.19): pos 191 a to g (1031 56 0.017163)
+Building subfamily 21 (parent 3, logpvalue -31.873821, sigma 9.13): pos 235 t to c (2429 179 0.038189)
+Building subfamily 22 (parent 3, logpvalue -24.506961, sigma 8.30): pos 275 c to t (2250 202 0.051225)
+Building subfamily 23 (parent 2, logpvalue -17.198110, sigma 7.38): pos 26 a to c (2553 66 0.010777)
+Building subfamily 24 (parent 2, logpvalue -11.035266, sigma 6.51): pos 223 a to c (2487 52 0.008755)
+Building subfamily 25 (parent 1, logpvalue -7.254100, sigma 5.91): pos 281 c to a (975 104 0.061261)
+26 subfamilies overall (14 leaves in tree)
+Program duration is 56.0 sec = 0.9 min = 0.0 hr

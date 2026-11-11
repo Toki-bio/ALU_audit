@@ -1,0 +1,9 @@
+ADDING SUBFAMILIES
+Building subfamily 1 (parent 0, logpvalue -1.938720e+03): pos 218 g to c and pos 77 t to a
+Building subfamily 2 (parent 0, logpvalue -6.605094e+02): pos 102 t to a and pos 92 g to a
+VERIFYING SUBFAMILIES (PRUNE IF NECESSARY)
+S=3 BEFORE/AFTER PRUNE
+THERE ARE 3 SUBFAMILIES IN SCAFFOLD
+Building subfamily 3 (parent 0, logpvalue -24.586841, sigma 8.30): pos 64 c to t (2096 799 0.298219)
+4 subfamilies overall (2 leaves in tree)
+Program duration is 1.0 sec = 0.0 min = 0.0 hr

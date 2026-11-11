@@ -1,0 +1,8 @@
+Subfamily 0: count 1297 mutrate 0.126/0.145 mstLogPValue -1503.777643
+56:t 153:a 154:t 
+Subfamily 1: count 1000 mutrate 0.012/0.013 mstLogPValue -1503.777643
+64:- 65:- 77:a 87:t 90:c 94:t 97:a 99:c 132:+ 145:a 152:g 162:g 174:t 196:g 199:g 218:c 237:c 
+Subfamily 2: count 904 mutrate 0.100/0.111 mstLogPValue -510.696837
+72:g 92:a 102:a 153:a 154:t 243:t 261:a 264:+ 271:a 
+Subfamily 3: count 799 mutrate 0.120/0.135 sigma 8.304600, logpvalue -24.586841
+56:t 64:t 

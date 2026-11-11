@@ -339,3 +339,45 @@ their copies together, so chunk size is not what hides them. Their copies are no
 which is built on whole-copy similarity and therefore dominated by each copy's private decay (about 12 % divergence),
 while these subfamilies differ from AluSx by a few diagnostic positions. Whether those positions are real
 synapomorphies or CpG changes is the question of section 3, still open. The peel found nothing at either chunk size.
+
+## 14. COSEG on the same AluS sample, against RepeatMasker (2026-11-11, measured)
+
+COSEG built from <https://github.com/rmhubley/coseg> commit cea334a on Monsoon (`tools/coseg/`). Script
+`scripts/11_coseg_S.sbatch`, comparison `scripts/12_coseg_vs_rm.py`; results `results/03_round2/S/coseg/`.
+
+- **Control:** COSEG's bundled Price example (4,000 copies, `-k -d -m 50`) runs in 1 s and gives 4 subfamilies.
+- **Input:** the same 30,000 AluS copies as sections 12-13, aligned globally to COSEG's AluSx consensus
+  (`to_coseg.py` from SubFam `benchmark/alu_konkel`); 1,285 copies dropped for missing more than 5 bases at an end
+  (Price's rule), 28,715 kept. Settings `-k -d -m 50`, nothing tuned. Run time 56 s.
+- **Result: 26 subfamilies** (14 leaves in COSEG's tree), each defined by named diagnostic positions
+  (`s2.seqs.subfamilies`).
+
+Where RepeatMasker names go (share of that name's copies in its main COSEG subfamily):
+
+| RepeatMasker name | copies | main COSEG subfamily |
+|---|---|---|
+| AluSp | 1,770 | sf2, 82 % |
+| AluSz6 | 1,149 | sf4, 74 % |
+| AluSx4 | 322 | sf8, 74 % |
+| AluSg4 | 222 | sf10, 70 % |
+| AluSq2 | 1,392 | sf3, 65 % |
+| AluSz | 2,209 | sf9, 63 % |
+| AluSc | 846 | sf1, 56 % |
+| AluSg | 1,431 | sf0, 52 % |
+| AluSx1 | 2,663 | sf10, 47 % |
+| AluSx3 | 829 | sf0, 30 % |
+| AluSx | 13,475 | sf0, 30 %; spread over sf8, sf9, sf10 |
+
+Agreement over all copies (RepeatMasker names as reference): homogeneity 0.304, completeness 0.264, V-measure 0.283.
+Four small COSEG subfamilies (sf5, sf12, sf14, sf19; 383 copies) are 81-94 % AluJb: AluJb copies that the round-2
+assignment had placed with the AluS consensus.
+
+**What this shows.** COSEG separates AluSz, AluSz6 and AluSq2, which SubFam's ordering did not bring together at
+either chunk size and the peel never found. The difference is the axis: COSEG tests co-occurring changes at single
+positions against one reference alignment, SubFam orders copies by whole-copy k-mer similarity. AluSx, the largest
+name, has no COSEG subfamily of its own; its copies sit in the four large COSEG subfamilies alongside the other names.
+
+**What it does not show.** COSEG and RepeatMasker both work from consensus and diagnostic positions, so their partial
+agreement is not independent evidence that these subfamilies are real lineages. Whether the diagnostic positions are
+shared lineage markers or recurrent CpG changes (section 3) is still untested: COSEG run with `-k` uses Price's
+original p-value, and Price excluded frequent CpG mutations; that exclusion has not been checked in COSEG's code.

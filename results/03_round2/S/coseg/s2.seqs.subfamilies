@@ -1,0 +1,52 @@
+Subfamily 0: count 5661 mutrate 0.144/0.152 mstLogPValue -815.695155
+56:t 153:a 
+Subfamily 1: count 871 mutrate 0.121/0.123 mstLogPValue -2890.801371
+64:- 65:- 73:a 77:a 87:t 138:t 162:g 257:- 
+Subfamily 2: count 2435 mutrate 0.117/0.124 mstLogPValue -621.301862
+72:g 92:a 102:a 128:- 153:a 154:t 243:t 261:a 263:+ 271:a 
+Subfamily 3: count 2048 mutrate 0.131/0.141 mstLogPValue -563.563645
+56:t 152:g 243:t 261:a 263:+ 271:a 
+Subfamily 4: count 2733 mutrate 0.168/0.180 mstLogPValue -144.067332
+64:t 70:c 153:a 189:c 276:t 
+Subfamily 5: count 176 mutrate 0.207/0.235 mstLogPValue -102.198372
+53:a 56:t 64:t 69:c 93:g 119:a 138:t 142:t 150:t 152:t 155:a 162:g 187:t 188:g 193:g 203:g 206:t 214:a 268:t 274:c 276:t 
+Subfamily 6: count 357 mutrate 0.141/0.148 mstLogPValue -82.228794
+56:t 92:a 97:t 152:t 162:g 186:a 196:t 
+Subfamily 7: count 382 mutrate 0.152/0.161 mstLogPValue -102.198372
+31:t 61:t 62:g 69:c 93:g 120:- 127:+ 152:t 162:g 196:t 276:t 
+Subfamily 8: count 4090 mutrate 0.148/0.159 sigma 9.424712, logpvalue -34.639724
+56:t 162:g 
+Subfamily 9: count 4535 mutrate 0.150/0.159 sigma 11.159128, logpvalue -52.656032
+56:t 64:t 
+Subfamily 10: count 4037 mutrate 0.136/0.144 sigma 24.892054, logpvalue -300.996158
+56:t 152:g 
+Subfamily 11: count 523 mutrate 0.121/0.126 sigma 29.033053, logpvalue -412.801536
+64:- 65:- 66:a 73:a 77:a 87:t 138:t 154:t 162:g 257:- 
+Subfamily 12: count 489 mutrate 0.200/0.235 sigma 22.985708, logpvalue -255.280970
+8:a 56:t 64:t 69:c 93:g 119:c 138:t 142:t 150:t 152:t 155:a 161:g 162:g 187:t 188:g 193:g 203:g 206:t 260:t 268:t 274:c 
+Subfamily 13: count 116 mutrate 0.112/0.114 sigma 21.563912, logpvalue -223.547157
+64:- 65:- 77:a 87:t 138:t 154:t 206:a 212:t 257:- 
+Subfamily 14: count 51 mutrate 0.199/0.218 sigma 16.255177, logpvalue -122.880384
+62:g 64:t 69:c 93:g 119:a 138:t 142:t 150:t 152:t 162:g 174:t 187:t 188:g 193:g 196:g 203:g 206:t 214:a 238:t 269:c 274:c 276:t 
+Subfamily 15: count 208 mutrate 0.117/0.119 sigma 13.529082, logpvalue -82.101095
+72:g 92:a 102:a 128:- 153:a 154:t 223:g 243:t 261:a 263:a 271:a 
+Subfamily 16: count 128 mutrate 0.171/0.184 sigma 13.091347, logpvalue -76.242223
+64:t 70:c 153:a 178:t 189:c 207:a 260:t 276:t 
+Subfamily 17: count 95 mutrate 0.119/0.118 sigma 12.367244, logpvalue -66.968685
+64:- 65:- 73:a 77:a 79:g 87:t 138:t 162:g 257:- 
+Subfamily 18: count 273 mutrate 0.136/0.145 sigma 10.295263, logpvalue -43.309962
+56:t 152:a 
+Subfamily 19: count 61 mutrate 0.208/0.242 sigma 9.649486, logpvalue -36.806497
+56:t 64:t 69:c 93:g 111:a 119:a 138:t 142:t 150:t 152:t 155:a 162:g 174:t 193:g 203:g 206:t 213:t 214:t 219:c 238:t 268:t 274:c 276:t 
+Subfamily 20: count 56 mutrate 0.127/0.127 sigma 9.185332, logpvalue -32.387123
+56:t 64:- 65:- 77:a 87:t 154:t 162:g 191:g 257:- 
+Subfamily 21: count 179 mutrate 0.133/0.146 sigma 9.129926, logpvalue -31.873821
+56:t 152:g 174:t 235:c 243:t 261:a 263:+ 271:a 
+Subfamily 22: count 202 mutrate 0.125/0.132 sigma 8.295110, logpvalue -24.506961
+56:t 151:a 152:g 243:t 263:+ 271:a 275:t 
+Subfamily 23: count 66 mutrate 0.143/0.145 sigma 7.376899, logpvalue -17.198110
+26:c 72:g 92:a 102:a 128:- 134:c 153:a 154:t 175:a 223:g 231:a 243:t 261:a 263:+ 268:t 271:a 276:t 
+Subfamily 24: count 52 mutrate 0.117/0.120 sigma 6.506499, logpvalue -11.035266
+92:a 102:a 128:- 153:a 154:t 223:c 243:t 261:a 263:+ 271:a 
+Subfamily 25: count 104 mutrate 0.124/0.128 sigma 5.912264, logpvalue -7.254100
+64:- 65:- 73:a 77:a 87:t 138:t 154:t 162:g 257:- 281:a 
